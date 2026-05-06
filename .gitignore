@@ -64,3 +64,18 @@ logs/
 
 # Phase 0 output
 .phase-0-output/
+
+# Local implementation plans and working docs
+PHASE_*_SPEC.md
+PHASE_*_EXECUTION_GUIDE.md
+IMPLEMENTATION_PLAN.md
+START_HERE.md
+STRATEGY_SUMMARY.md
+SESSION_RECAP.md
+QUICKSTART.md
+DESIGN.md
+METHODOLOGY.md
+RUNTIMES.md
+TASKS.md
+ARCHITECTURE.md
+.phase-*-output/
