@@ -1,0 +1,17 @@
+{
+  "name": "backend-bakeoff",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Backend Bake-off: Interactive benchmark comparing 6 runtimes",
+  "scripts": {
+    "dev": "make dev",
+    "clean": "make clean-dev",
+    "test": "make test",
+    "build": "make build",
+    "bench": "make bench",
+    "contract": "make contract"
+  },
+  "devDependencies": {
+    "redocly-cli": "latest"
+  }
+}

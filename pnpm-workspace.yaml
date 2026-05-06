@@ -1,0 +1,13 @@
+packages:
+  - 'apps/web'
+  - 'apps/router'
+  - 'apps/loadgen'
+  - 'apps/tax-service'
+  - 'apps/backends/go'
+  - 'apps/backends/rust'
+  - 'apps/backends/bun'
+  - 'apps/backends/node'
+  - 'apps/backends/python'
+  - 'apps/backends/php'
+  - 'packages/contracts'
+  - 'packages/seed-data'

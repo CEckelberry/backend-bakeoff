@@ -1,56 +1,66 @@
-# Node / SvelteKit
+# Dependencies
 node_modules/
 .pnpm-store/
-.svelte-kit/
-build/
-dist/
-*.tsbuildinfo
-.vite/
+pnpm-lock.yaml
 
-# Go
+# Build outputs
+dist/
+build/
+bin/
 *.exe
-*.test
 *.out
-coverage.out
-coverage.html
+*.o
 
 # Rust
 target/
+Cargo.lock
 
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 .venv/
 venv/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-*.egg-info/
+pip-log.txt
 
 # PHP
 vendor/
+composer.lock
+.phpunit.result.cache
+
+# Go
+go.sum
+# (Keep go.mod, but ignore binaries)
 
 # Bun
-bun.lockb
+.bun
 
-# Docker / runtime
-.env
-.env.*
-!.env.example
-*.pem
-*.key
+# Docker / Infra
+data/db/
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
 
-# Helm
-*.tgz
-
-# editor / OS
+# IDEs
 .vscode/
 .idea/
 *.swp
 *.swo
-.DS_Store
+*.sublime-project
+*.sublime-workspace
 
-# logs
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
 *.log
-npm-debug.log*
-pnpm-debug.log*
+logs/
+
+# Sensitive
+.env
+.env.local
+
+# Phase 0 output
+.phase-0-output/
