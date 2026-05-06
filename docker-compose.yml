@@ -77,11 +77,19 @@ services:
       - backend-network
 
   bo-node:
-    image: python:3-alpine
+    build: ./apps/backends/node
     ports:
       - "8084:8080"
-    command: python -m http.server 8080
-    
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/bakeoff?search_path=bakeoff_node
+      TAX_SERVICE_URL: http://tax-service:8080
+      RUNTIME_NAME: node
+      LOG_LEVEL: info
+      LISTEN_ADDR: 0.0.0.0
+      LISTEN_PORT: 8080
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
     networks:
       - backend-network
 
