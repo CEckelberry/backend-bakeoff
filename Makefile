@@ -8,7 +8,7 @@ dev:
 	@echo ""
 	@sleep 5
 	@echo "Services available on:"
-	@echo "  - Postgres:     localhost:5432"
+	@echo "  - Postgres:     localhost:5433 (alt port, internal: db:5432)"
 	@echo "  - Go backend:   localhost:8081"
 	@echo "  - Rust backend: localhost:8082"
 	@echo "  - Bun backend:  localhost:8083"
@@ -17,7 +17,7 @@ dev:
 	@echo "  - PHP backend:  localhost:8086"
 	@echo "  - Tax service:  localhost:8087"
 	@echo "  - Router:       localhost:8090"
-	@echo "  - Prometheus:   localhost:9090"
+	@echo "  - Prometheus:   localhost:9091 (alt port, internal: 9090)"
 	@echo "  - Grafana:      localhost:3001"
 	@echo ""
 
