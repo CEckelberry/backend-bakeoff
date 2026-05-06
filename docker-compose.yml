@@ -1,0 +1,146 @@
+version: '3.8'
+
+services:
+  # Database
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: bakeoff
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+
+  # Database initialization
+  db-init:
+    image: python:3-alpine
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/bakeoff
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: >
+      sh -c "apk add --no-cache postgresql-client jq &&
+             bash packages/seed-data/seed.sh"
+    networks:
+      - backend-network
+
+  # Backend Placeholders
+  bo-go:
+    image: python:3-alpine
+    ports:
+      - "8081:8080"
+    command: python -m http.server 8080
+    
+    networks:
+      - backend-network
+
+  bo-rust:
+    image: python:3-alpine
+    ports:
+      - "8082:8080"
+    command: python -m http.server 8080
+    
+    networks:
+      - backend-network
+
+  bo-bun:
+    image: python:3-alpine
+    ports:
+      - "8083:8080"
+    command: python -m http.server 8080
+    
+    networks:
+      - backend-network
+
+  bo-node:
+    image: python:3-alpine
+    ports:
+      - "8084:8080"
+    command: python -m http.server 8080
+    
+    networks:
+      - backend-network
+
+  bo-python:
+    image: python:3-alpine
+    ports:
+      - "8085:8080"
+    command: python -m http.server 8080
+    
+    networks:
+      - backend-network
+
+  bo-php:
+    image: python:3-alpine
+    ports:
+      - "8086:8080"
+    command: python -m http.server 8080
+    
+    networks:
+      - backend-network
+
+  # Tax Service
+  tax-service:
+    image: python:3-alpine
+    ports:
+      - "8087:8080"
+    command: python -m http.server 8080
+    
+    networks:
+      - backend-network
+
+  # Router
+  router:
+    image: python:3-alpine
+    ports:
+      - "8090:8080"
+    command: python -m http.server 8080
+    
+    networks:
+      - backend-network
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infra/observability/prometheus-local.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+    networks:
+      - backend-network
+
+  # Grafana
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_SECURITY_ADMIN_USER: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - backend-network
+
+volumes:
+  postgres_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  backend-network:
+    driver: bridge
