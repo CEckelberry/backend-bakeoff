@@ -119,11 +119,21 @@ services:
       - backend-network
 
   bo-php:
-    image: python:3-alpine
+    build: ./apps/backends/php
     ports:
-      - "8086:8080"
-    command: python -m http.server 8080
-    
+      - "8086:8086"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: bakeoff
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      DB_SCHEMA: bakeoff_php
+      TAX_SERVICE_URL: http://tax-service:8080
+      RUNTIME_NAME: php
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
     networks:
       - backend-network
 

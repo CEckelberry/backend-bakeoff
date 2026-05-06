@@ -1,0 +1,221 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"log/slog"
+	"net/http"
+	"os"
+	"os/signal"
+	"strconv"
+	"syscall"
+	"time"
+
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/adaptor"
+	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+
+	"backend-bakeoff-go/internal/config"
+	"backend-bakeoff-go/internal/observability"
+	"backend-bakeoff-go/internal/store"
+)
+
+type contextKey string
+
+const poolKey contextKey = "pool"
+
+// Middleware for metrics and logging
+func metricsMiddleware(c fiber.Ctx) error {
+	start := time.Now()
+	requestID := c.Get("X-Request-ID")
+	if requestID == "" {
+		requestID = uuid.New().String()
+	}
+
+	err := c.Next()
+
+	duration := time.Since(start)
+	method := c.Method()
+	path := c.Path()
+	status := c.Response().StatusCode()
+
+	// Record metrics
+	observability.HTTPRequestsTotal.WithLabelValues(method, path, strconv.Itoa(status)).Inc()
+	observability.HTTPRequestDurationSeconds.WithLabelValues(method, path).Observe(duration.Seconds())
+
+	// Log
+	slog.Info("request processed",
+		"request_id", requestID,
+		"method", method,
+		"path", path,
+		"status", status,
+		"duration_ms", int(duration.Milliseconds()),
+		"runtime", "go",
+	)
+
+	return err
+}
+
+func main() {
+	// 1. Config
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatalf("config error: %v", err)
+	}
+
+	// Structured logging setup
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}))
+	slog.SetDefault(logger)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	// 2. Observability (metrics only, no tracing overhead)
+	observability.InitMetrics()
+
+	// 3. Store
+	dbStore, err := store.NewPostgresStore(ctx, cfg.DatabaseURL)
+	if err != nil {
+		slog.Error("database connection failed", "error", err)
+		os.Exit(1)
+	}
+	defer dbStore.Close()
+
+	// 4. Create Fiber app
+	app := fiber.New(fiber.Config{
+		Prefork:          false,
+		DisableKeepalive: false,
+		BodyLimit:        4 * 1024, // 4KB
+	})
+
+	// 5. Middleware
+	app.Use(metricsMiddleware)
+
+	// Store db pool in context
+	app.Use(func(c fiber.Ctx) error {
+		c.SetUserValue("store", dbStore)
+		return c.Next()
+	})
+
+	// 6. Routes
+	app.Get("/health", func(c fiber.Ctx) error {
+		store := c.UserValue("store").(*store.PostgresStore)
+		ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+		defer cancel()
+
+		if err := store.Pool.Ping(ctx); err != nil {
+			return c.Status(503).JSON(map[string]string{"error": "DB unreachable"})
+		}
+		return c.JSON(map[string]string{"status": "ok"})
+	})
+
+	app.Post("/checkout", func(c fiber.Ctx) error {
+		store := c.UserValue("store").(*store.PostgresStore)
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		var req struct {
+			CustomerID string `json:"customer_id"`
+			Items      []struct {
+				ProductID string `json:"product_id"`
+				Quantity  int    `json:"quantity"`
+			} `json:"items"`
+			State string `json:"state"`
+		}
+
+		if err := c.Bind().Body(&req); err != nil {
+			return c.Status(400).JSON(map[string]string{"error": "Invalid request"})
+		}
+
+		// Validate customer ID
+		if _, err := uuid.Parse(req.CustomerID); err != nil {
+			return c.Status(400).JSON(map[string]string{"error": "Invalid customer ID"})
+		}
+
+		// Validate items
+		if len(req.Items) == 0 || len(req.Items) > 8 {
+			return c.Status(422).JSON(map[string]string{"error": "Cart must have 1-8 items"})
+		}
+
+		subtotal := 0
+		for _, item := range req.Items {
+			if _, err := uuid.Parse(item.ProductID); err != nil {
+				return c.Status(400).JSON(map[string]string{"error": "Invalid product ID"})
+			}
+
+			row := store.Pool.QueryRow(ctx,
+				"SELECT id, price_cents, stock FROM bakeoff_go.products WHERE id = $1",
+				item.ProductID,
+			)
+			var id string
+			var priceCents, stock int
+			if err := row.Scan(&id, &priceCents, &stock); err != nil {
+				if err == pgx.ErrNoRows {
+					return c.Status(404).JSON(map[string]string{"error": "Product not found"})
+				}
+				return c.Status(500).JSON(map[string]string{"error": "Database error"})
+			}
+
+			if stock < item.Quantity {
+				return c.Status(422).JSON(map[string]string{"error": "Insufficient stock"})
+			}
+
+			subtotal += priceCents * item.Quantity
+		}
+
+		// Calculate tax
+		taxCents := 0
+		if req.State == "CA" {
+			taxCents = subtotal * 85 / 1000 // 8.5%
+		} else {
+			taxCents = subtotal * 7 / 100 // 7%
+		}
+
+		fraudScore := subtotal/100 + len(req.Items)*10
+		orderID := uuid.New().String()
+		total := subtotal + taxCents
+
+		// Insert order
+		if _, err := store.Pool.Exec(ctx,
+			"INSERT INTO bakeoff_go.orders (id, customer_id, total_cents, tax_cents, created_at) VALUES ($1, $2, $3, $4, NOW())",
+			orderID, req.CustomerID, total, taxCents,
+		); err != nil {
+			return c.Status(500).JSON(map[string]string{"error": "Failed to create order"})
+		}
+
+		return c.Status(201).JSON(map[string]interface{}{
+			"order_id":    orderID,
+			"total_cents": total,
+			"tax_cents":   taxCents,
+			"fraud_score": fraudScore,
+		})
+	})
+
+	// Prometheus metrics endpoint
+	app.Get("/metrics", adaptor.HTTPHandler(promhttp.Handler()))
+
+	// Start server
+	listenAddr := cfg.ListenAddr
+	listenPort := cfg.ListenPort
+
+	slog.Info("starting server", "addr", fmt.Sprintf("%s:%d", listenAddr, listenPort), "runtime", cfg.RuntimeName)
+
+	go func() {
+		if err := app.Listen(fmt.Sprintf("%s:%d", listenAddr, listenPort)); err != nil {
+			slog.Error("server failed", "error", err)
+		}
+	}()
+
+	// Graceful Shutdown
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+	<-sigChan
+
+	slog.Info("shutting down server")
+	app.Shutdown()
+}

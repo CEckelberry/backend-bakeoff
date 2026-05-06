@@ -1,0 +1,10 @@
+vendor/
+.env
+.env.local
+.env.*.local
+node_modules/
+npm-debug.log
+.idea
+.vscode
+*.log
+.DS_Store
