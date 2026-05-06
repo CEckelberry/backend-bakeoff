@@ -1,0 +1,16 @@
+{
+  "name": "backend-bakeoff-bun",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "build": "bun build src/index.ts --outfile dist/index.js --minify",
+    "start": "bun src/index.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "hono": "^4.0.0",
+    "postgres": "^3.4.4",
+    "prom-client": "^15.0.0"
+  }
+}
