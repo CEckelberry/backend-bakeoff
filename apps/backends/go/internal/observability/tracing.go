@@ -2,7 +2,6 @@ package observability
 
 import (
 	"context"
-	"fmt"
 
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
@@ -12,17 +11,26 @@ import (
 )
 
 func InitTracing(ctx context.Context, serviceName string) (*sdktrace.TracerProvider, error) {
-	client := otlptracegrpc.NewClient(
+	exporter, err := otlptracegrpc.New(ctx,
 		otlptracegrpc.WithInsecure(),
 		otlptracegrpc.WithEndpoint("otel-collector:4317"),
 	)
+	if err != nil {
+		return nil, err
+	}
+
+	res, err := resource.New(ctx,
+		resource.WithAttributes(
+			semconv.ServiceNameKey.String(serviceName),
+		),
+	)
+	if err != nil {
+		return nil, err
+	}
 
 	tp := sdktrace.NewTracerProvider(
-		sdktrace.WithBatcher(client),
-		sdktrace.WithResource(resource.NewWithAttributes(
-			semconv.SchemaURL,
-			semconv.ServiceNameKey.String(serviceName),
-		)),
+		sdktrace.WithBatcher(exporter),
+		sdktrace.WithResource(res),
 	)
 	otel.SetTracerProvider(tp)
 	return tp, nil

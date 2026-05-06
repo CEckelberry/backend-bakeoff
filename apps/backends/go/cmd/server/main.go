@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"backend-bakeoff-go/internal/config"
-	"backend-bakeoff-go/internal/http"
+	httphandler "backend-bakeoff-go/internal/http"
 	"backend-bakeoff-go/internal/observability"
 	"backend-bakeoff-go/internal/store"
 	"backend-bakeoff-go/internal/tax"
@@ -55,7 +55,7 @@ func main() {
 	taxClient := tax.NewClient(cfg.TaxServiceURL)
 
 	// 5. Router
-	router := http.NewRouter(dbStore, taxClient, cfg.RuntimeName)
+	router := httphandler.NewRouter(dbStore, taxClient, cfg.RuntimeName)
 
 	server := &http.Server{
 		Addr:         cfg.ListenAddr,

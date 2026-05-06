@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/google/uuid"
-	"github.com/jackc/pgx/v5"
 )
 
 type Product struct {
@@ -39,29 +38,46 @@ func (ps *PostgresStore) GetProduct(ctx context.Context, id uuid.UUID) (*Product
 }
 
 func (ps *PostgresStore) InsertOrder(ctx context.Context, order Order, items []OrderItem) error {
-	return ps.Pool.BeginFunc(ctx, func(tx pgx.Tx) error {
-		_, err := tx.Exec(ctx, 
-			"INSERT INTO bakeoff_go.orders (id, customer_id, total_cents, tax_cents, created_at) VALUES ($1, $2, $3, $4, NOW())",
-			order.ID, order.CustomerID, order.TotalCents, order.TaxCents)
+	tx, err := ps.Pool.Acquire(ctx)
+	if err != nil {
+		return fmt.Errorf("acquire connection: %w", err)
+	}
+	defer tx.Release()
+
+	// Start transaction
+	t, err := tx.Begin(ctx)
+	if err != nil {
+		return fmt.Errorf("begin transaction: %w", err)
+	}
+	defer t.Rollback(ctx)
+
+	// Insert order
+	_, err = t.Exec(ctx, 
+		"INSERT INTO bakeoff_go.orders (id, customer_id, total_cents, tax_cents, created_at) VALUES ($1, $2, $3, $4, NOW())",
+		order.ID, order.CustomerID, order.TotalCents, order.TaxCents)
+	if err != nil {
+		return fmt.Errorf("insert order: %w", err)
+	}
+
+	// Insert order items and update stock
+	for _, item := range items {
+		_, err := t.Exec(ctx, 
+			"INSERT INTO bakeoff_go.order_items (id, order_id, product_id, quantity, price_cents, created_at) VALUES ($1, $2, $3, $4, $5, NOW())",
+			uuid.New(), order.ID, item.ProductID, item.Quantity, item.Price)
 		if err != nil {
-			return err
+			return fmt.Errorf("insert order item: %w", err)
 		}
 
-		for _, item := range items {
-			_, err := tx.Exec(ctx, 
-				"INSERT INTO bakeoff_go.order_items (id, order_id, product_id, quantity, price_cents) VALUES ($1, $2, $3, $4, $5)",
-				uuid.New(), order.ID, item.ProductID, item.Quantity, item.Price)
-			if err != nil {
-				return err
-			}
-
-			_, err = tx.Exec(ctx, 
-				"UPDATE bakeoff_go.products SET stock = stock - $1 WHERE id = $2 AND stock >= $1", 
-				item.Quantity, item.ProductID)
-			if err != nil {
-				return fmt.Errorf("insufficient stock for product %s", item.ProductID)
-			}
+		result, err := t.Exec(ctx, 
+			"UPDATE bakeoff_go.products SET stock = stock - $1 WHERE id = $2 AND stock >= $1", 
+			item.Quantity, item.ProductID)
+		if err != nil {
+			return fmt.Errorf("update stock: %w", err)
 		}
-		return nil
-	})
+		if result.RowsAffected() == 0 {
+			return fmt.Errorf("insufficient stock for product %s", item.ProductID)
+		}
+	}
+
+	return t.Commit(ctx)
 }
