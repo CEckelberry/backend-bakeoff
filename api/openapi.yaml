@@ -1,0 +1,225 @@
+openapi: 3.1.0
+info:
+  title: Backend Bake-off API
+  description: A high-performance checkout benchmark API. All backends must implement this spec exactly.
+  version: 1.0.0
+
+paths:
+  /checkout:
+    post:
+      summary: Place an order
+      description: Validates a shopping cart and creates an order in the database.
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+            examples:
+              validOrder:
+                summary: A valid order with 3 items
+                value:
+                  customer_id: "550e8400-e29b-41d4-a716-446655440000"
+                  shipping_address:
+                    country: "US"
+                    postal_code: "90210"
+                  cart:
+                    - product_id: "a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d"
+                      quantity: 2
+                    - product_id: "b2c3d4e5-f6a7-4b6c-9d0e-1f2a3b4c5d6e"
+                      quantity: 1
+                    - product_id: "c3d4e5f6-a7b8-4c7d-0e1f-2a3b4c5d6e7f"
+                      quantity: 1
+              emptyCart:
+                summary: Empty cart (should return 422)
+                value:
+                  customer_id: "550e8400-e29b-41d4-a716-446655440000"
+                  shipping_address:
+                    country: "US"
+                    postal_code: "90210"
+                  cart: []
+              tooManyItems:
+                summary: Cart with 9 items (should return 400)
+                value:
+                  customer_id: "550e8400-e29b-41d4-a716-446655440000"
+                  shipping_address:
+                    country: "US"
+                    postal_code: "90210"
+                  cart:
+                    - product_id: "uuid-1"
+                      quantity: 1
+                    - product_id: "uuid-2"
+                      quantity: 1
+                    - product_id: "uuid-3"
+                      quantity: 1
+                    - product_id: "uuid-4"
+                      quantity: 1
+                    - product_id: "uuid-5"
+                      quantity: 1
+                    - product_id: "uuid-6"
+                      quantity: 1
+                    - product_id: "uuid-7"
+                      quantity: 1
+                    - product_id: "uuid-8"
+                      quantity: 1
+                    - product_id: "uuid-9"
+                      quantity: 1
+      responses:
+        '201':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutResponse'
+        '400':
+          description: Bad Request (e.g., cart too large, malformed JSON)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity (e.g., out of stock, invalid product ID, empty cart)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /health:
+    get:
+      summary: Health check
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '503':
+          description: Service unavailable or degraded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+components:
+  schemas:
+    CheckoutRequest:
+      type: object
+      required:
+        - cart
+        - shipping_address
+        - customer_id
+      properties:
+        customer_id:
+          type: string
+          format: uuid
+          description: Unique identifier of the customer
+        shipping_address:
+          type: object
+          required:
+            - country
+            - postal_code
+          properties:
+            country:
+              type: string
+              minLength: 2
+              maxLength: 2
+              description: ISO 3166-1 alpha-2 country code
+            postal_code:
+              type: string
+              description: Postal code for shipping
+        cart:
+          type: array
+          minItems: 1
+          maxItems: 8
+          items:
+            type: object
+            required:
+              - product_id
+              - quantity
+            properties:
+              product_id:
+                type: string
+                format: uuid
+                description: Product identifier
+              quantity:
+                type: integer
+                minimum: 1
+                maximum: 8
+                description: Quantity ordered
+
+    CheckoutResponse:
+      type: object
+      required:
+        - order_id
+        - total_cents
+        - tax_cents
+        - items
+        - created_at
+      properties:
+        order_id:
+          type: string
+          format: uuid
+          description: Unique order identifier
+        total_cents:
+          type: integer
+          minimum: 0
+          description: Total order amount in cents
+        tax_cents:
+          type: integer
+          minimum: 0
+          description: Tax amount in cents
+        created_at:
+          type: string
+          format: date-time
+          description: Order creation timestamp
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              product_id:
+                type: string
+                format: uuid
+              product_name:
+                type: string
+              quantity:
+                type: integer
+              price_cents:
+                type: integer
+
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - runtime
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+            - degraded
+          description: Service status
+        runtime:
+          type: string
+          description: The runtime name (e.g., "go", "rust", "bun", "node", "python", "php")
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Error message
+        details:
+          type: object
+          description: Additional error details
