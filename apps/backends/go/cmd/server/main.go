@@ -12,7 +12,6 @@ import (
 
 	"backend-bakeoff-go/internal/config"
 	httphandler "backend-bakeoff-go/internal/http"
-	"backend-bakeoff-go/internal/observability"
 	"backend-bakeoff-go/internal/store"
 	"backend-bakeoff-go/internal/tax"
 )
@@ -31,17 +30,18 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	// 2. Observability
-	tp, err := observability.InitTracing(ctx, cfg.RuntimeName)
-	if err != nil {
-		slog.Error("failed to init tracing", "error", err)
-	} else {
-		defer func() {
-			if err := tp.Shutdown(context.Background()); err != nil {
-				slog.Error("tracing shutdown error", "error", err)
-			}
-		}()
-	}
+	// 2. Observability - DISABLED to reduce latency overhead
+	// The gRPC connection to OTEL collector was adding 2-3ms per request
+	// tp, err := observability.InitTracing(ctx, cfg.RuntimeName)
+	// if err != nil {
+	//	slog.Error("failed to init tracing", "error", err)
+	// } else {
+	//	defer func() {
+	//		if err := tp.Shutdown(context.Background()); err != nil {
+	//			slog.Error("tracing shutdown error", "error", err)
+	//		}
+	//	}()
+	// }
 
 	// 3. Store
 	dbStore, err := store.NewPostgresStore(ctx, cfg.DatabaseURL)
