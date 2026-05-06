@@ -42,7 +42,7 @@ services:
     ports:
       - "8081:8080"
     environment:
-      DATABASE_URL: postgresql://postgres:password@db:5433/bakeoff?search_path=bakeoff_go
+      DATABASE_URL: postgresql://postgres:password@db:5432/bakeoff?search_path=bakeoff_go
       TAX_SERVICE_URL: http://tax-service:8080
       RUNTIME_NAME: go
       LOG_LEVEL: info
