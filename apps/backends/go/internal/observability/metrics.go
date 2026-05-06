@@ -6,6 +6,17 @@ import (
 )
 
 var (
+	HTTPRequestsTotal = promauto.NewCounterVec(prometheus.CounterOpts{
+		Name: "http_requests_total",
+		Help: "Total HTTP requests",
+	}, []string{"method", "endpoint", "status"})
+
+	HTTPRequestDurationSeconds = promauto.NewHistogramVec(prometheus.HistogramOpts{
+		Name:    "http_request_duration_seconds",
+		Help:    "HTTP request duration",
+		Buckets: prometheus.DefBuckets,
+	}, []string{"method", "endpoint"})
+
 	CheckoutLatency = promauto.NewHistogramVec(prometheus.HistogramOpts{
 		Name:    "checkout_latency_seconds",
 		Help:    "Latency of checkout requests",
