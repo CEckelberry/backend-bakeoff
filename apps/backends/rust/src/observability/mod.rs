@@ -27,9 +27,10 @@ impl Metrics {
 }
 
 pub fn init_tracing(config: &crate::config::Config) {
+    // Minimal tracing - no JSON formatting on hot path
     tracing_subscriber::registry()
         .with(tracing_subscriber::EnvFilter::new(&config.log_level))
-        .with(tracing_subscriber::fmt::layer().json())
+        .with(tracing_subscriber::fmt::layer().with_target(false).compact())
         .init();
 }
 

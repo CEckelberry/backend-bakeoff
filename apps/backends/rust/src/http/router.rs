@@ -23,18 +23,26 @@ pub fn create_router(pool: PgPool, tax_client: TaxClient, metrics: Arc<Metrics>)
         metrics: metrics.clone(),
     };
     
-    Router::new()
-        .route("/health", get(health::health))
+    // Checkout with observability middleware (hot path)
+    let checkout_router = Router::new()
         .route("/checkout", post(checkout::checkout))
-        .route("/metrics", get(metrics_handler))
-        .with_state(state)
+        .with_state(state.clone())
         .layer(
             ServiceBuilder::new()
                 .layer(axum::middleware::from_fn(
                     move |req, next| observability_middleware(metrics.clone(), req, next),
                 ))
-        )
-        .layer(DefaultBodyLimit::max(1024 * 1024))
+        );
+
+    // Health and metrics without middleware (low priority endpoints)
+    let other_routes = Router::new()
+        .route("/health", get(health::health))
+        .route("/metrics", get(metrics_handler))
+        .with_state(state)
+        .layer(DefaultBodyLimit::max(1024 * 1024));
+
+    // Merge routers
+    checkout_router.merge(other_routes)
 }
 
 async fn metrics_handler() -> String {
