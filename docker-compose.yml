@@ -99,11 +99,9 @@ services:
 
   # Tax Service
   tax-service:
-    image: python:3-alpine
+    build: ./apps/tax-service
     ports:
       - "8087:8080"
-    command: python -m http.server 8080
-    
     networks:
       - backend-network
 
