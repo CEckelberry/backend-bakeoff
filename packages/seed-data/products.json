@@ -1,0 +1,1602 @@
+[
+  {
+    "id": "359b6004-aad0-433b-a876-84e49bb6c7d0",
+    "sku": "PROD-0001",
+    "name": "Wireless Headphones",
+    "price_cents": 500,
+    "stock": 5,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "293eafb2-2029-42bb-86ed-e216bc10a7a1",
+    "sku": "PROD-0002",
+    "name": "Mechanical Keyboard",
+    "price_cents": 657,
+    "stock": 16,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "2b444ae0-831c-495a-9840-a7e2aaac4a33",
+    "sku": "PROD-0003",
+    "name": "Gaming Mouse",
+    "price_cents": 814,
+    "stock": 27,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "9bba82ba-8eb9-4bc1-9598-fe0a1cce994d",
+    "sku": "PROD-0004",
+    "name": "USB-C Hub",
+    "price_cents": 971,
+    "stock": 38,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "d53e7a5c-e59e-4192-b590-5d883414f88c",
+    "sku": "PROD-0005",
+    "name": "Monitor Stand",
+    "price_cents": 1128,
+    "stock": 49,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "ae8bbd8e-ff13-425f-8e85-a38aa3addd5d",
+    "sku": "PROD-0006",
+    "name": "Laptop Cooling Pad",
+    "price_cents": 1285,
+    "stock": 60,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "303a429a-be70-40f1-b8ec-4e06fb006be0",
+    "sku": "PROD-0007",
+    "name": "Desk Lamp",
+    "price_cents": 1442,
+    "stock": 71,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "baa81b08-840c-478d-bc2c-84671dc84369",
+    "sku": "PROD-0008",
+    "name": "Cable Organizer",
+    "price_cents": 1599,
+    "stock": 82,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "cd6fa063-e692-40a8-a502-a331081d75f2",
+    "sku": "PROD-0009",
+    "name": "Phone Stand",
+    "price_cents": 1756,
+    "stock": 93,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "57a85a66-c817-4423-bb01-7562de8e428e",
+    "sku": "PROD-0010",
+    "name": "Mousepad",
+    "price_cents": 1913,
+    "stock": 104,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "b82720a3-32b8-4bdc-943f-6c041cec5e33",
+    "sku": "PROD-0011",
+    "name": "Webcam",
+    "price_cents": 2070,
+    "stock": 115,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "9cd2fcac-56d3-48dd-9b06-3a6b21fc8868",
+    "sku": "PROD-0012",
+    "name": "Microphone",
+    "price_cents": 2227,
+    "stock": 126,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "00e9627b-6566-4c41-b915-969e3b858a8c",
+    "sku": "PROD-0013",
+    "name": "HDMI Cable",
+    "price_cents": 2384,
+    "stock": 137,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "12493e48-c8f3-4e19-841c-50b048929897",
+    "sku": "PROD-0014",
+    "name": "DisplayPort Cable",
+    "price_cents": 2541,
+    "stock": 148,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "4dc76927-c724-4bb6-9c89-64dedf019317",
+    "sku": "PROD-0015",
+    "name": "Power Bank",
+    "price_cents": 2698,
+    "stock": 159,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "213ffce5-d068-499a-8837-bdf07f2cb90e",
+    "sku": "PROD-0016",
+    "name": "Wireless Charger",
+    "price_cents": 2855,
+    "stock": 170,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "59dee942-a18e-45f9-accd-7a29ca830a01",
+    "sku": "PROD-0017",
+    "name": "USB Hub",
+    "price_cents": 3012,
+    "stock": 181,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "b6e0e665-fef8-4c82-8887-4559a6086bbf",
+    "sku": "PROD-0018",
+    "name": "Docking Station",
+    "price_cents": 3169,
+    "stock": 192,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "069b0c4a-732d-4b3d-b0b5-23392425e560",
+    "sku": "PROD-0019",
+    "name": "Screen Protector",
+    "price_cents": 3326,
+    "stock": 203,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "292776a5-a548-47b5-965b-c52504af2dc9",
+    "sku": "PROD-0020",
+    "name": "Phone Case",
+    "price_cents": 3483,
+    "stock": 14,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "7be0d7e9-9e08-492c-9ba5-7ccafb1952c3",
+    "sku": "PROD-0021",
+    "name": "Laptop Sleeve",
+    "price_cents": 3640,
+    "stock": 25,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "1d186521-a3f8-4638-8c47-e0819b5b441f",
+    "sku": "PROD-0022",
+    "name": "Desk Organizer",
+    "price_cents": 3797,
+    "stock": 36,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "cbeada4e-27a2-485a-bab7-6900a3b90fbd",
+    "sku": "PROD-0023",
+    "name": "File Cabinet",
+    "price_cents": 3954,
+    "stock": 47,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "19adc02b-6f6c-4810-9df4-812841eaff90",
+    "sku": "PROD-0024",
+    "name": "Bookshelf",
+    "price_cents": 4111,
+    "stock": 58,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "10e960a2-f366-4ac6-b9db-8630a0e91ff6",
+    "sku": "PROD-0025",
+    "name": "Storage Box",
+    "price_cents": 4268,
+    "stock": 69,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "82012d8a-693c-4cda-a06d-ffa9dbd01c12",
+    "sku": "PROD-0026",
+    "name": "Desk Chair",
+    "price_cents": 4425,
+    "stock": 80,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "d83e67c7-5251-497f-88e0-7672132e2e40",
+    "sku": "PROD-0027",
+    "name": "Monitor Arm",
+    "price_cents": 4582,
+    "stock": 91,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "0746de93-bae5-41e4-9faf-254bb495682b",
+    "sku": "PROD-0028",
+    "name": "Keyboard Wrist Rest",
+    "price_cents": 4739,
+    "stock": 102,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "dd3b626a-3b0a-4698-828e-600478f6e621",
+    "sku": "PROD-0029",
+    "name": "Mouse Bungee",
+    "price_cents": 4896,
+    "stock": 113,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "609cdba2-9201-45fd-a1af-31374b99dd91",
+    "sku": "PROD-0030",
+    "name": "Cable Clips",
+    "price_cents": 5053,
+    "stock": 124,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "67d809b8-b8dd-43be-b17b-4a065c369ed4",
+    "sku": "PROD-0031",
+    "name": "Portable Charger",
+    "price_cents": 5210,
+    "stock": 135,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "1afb5337-5ba6-40db-b617-103400bbf895",
+    "sku": "PROD-0032",
+    "name": "Car Charger",
+    "price_cents": 5367,
+    "stock": 146,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "805966bf-435d-4acc-93c3-896f84e22d18",
+    "sku": "PROD-0033",
+    "name": "Wall Adapter",
+    "price_cents": 5524,
+    "stock": 157,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "808f6e89-4af0-4459-a708-036e84af759d",
+    "sku": "PROD-0034",
+    "name": "USB Splitter",
+    "price_cents": 5681,
+    "stock": 168,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "b8b08287-21df-4678-9a73-fd0769dde5ee",
+    "sku": "PROD-0035",
+    "name": "Ethernet Cable",
+    "price_cents": 5838,
+    "stock": 179,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "fdf621b0-5b0e-454b-a98b-e4cc58bcc6da",
+    "sku": "PROD-0036",
+    "name": "Network Switch",
+    "price_cents": 5995,
+    "stock": 190,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "a03a7012-db65-4144-93d7-31b7ac68416f",
+    "sku": "PROD-0037",
+    "name": "WiFi Router",
+    "price_cents": 6152,
+    "stock": 201,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "c7c100bb-66fb-4fff-90d3-1703c87d307f",
+    "sku": "PROD-0038",
+    "name": "Access Point",
+    "price_cents": 6309,
+    "stock": 12,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "8fafbec9-d5ef-4997-8b56-a6a04ba2a9bd",
+    "sku": "PROD-0039",
+    "name": "Network Card",
+    "price_cents": 6466,
+    "stock": 23,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "8e823f6c-c2d3-4f38-a347-d8e0db7d26f4",
+    "sku": "PROD-0040",
+    "name": "Modem",
+    "price_cents": 6623,
+    "stock": 34,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "0dea5204-7df3-4edb-875e-cdb92d33cf17",
+    "sku": "PROD-0041",
+    "name": "Graphics Card",
+    "price_cents": 6780,
+    "stock": 45,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "e8bf88a5-0b35-4140-9036-33a7d25d6463",
+    "sku": "PROD-0042",
+    "name": "RAM Module",
+    "price_cents": 6937,
+    "stock": 56,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "0933a639-98fc-440d-bf01-049a80e34f12",
+    "sku": "PROD-0043",
+    "name": "SSD Drive",
+    "price_cents": 7094,
+    "stock": 67,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "5f57e3b7-a944-4f48-9239-fc1bc51fc196",
+    "sku": "PROD-0044",
+    "name": "HDD Drive",
+    "price_cents": 7251,
+    "stock": 78,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "62da5d4a-0d2e-49f1-8f1c-f6ca91281fab",
+    "sku": "PROD-0045",
+    "name": "Power Supply",
+    "price_cents": 7408,
+    "stock": 89,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "d0d063c7-8579-4220-8cbb-deee124a2572",
+    "sku": "PROD-0046",
+    "name": "CPU Cooler",
+    "price_cents": 7565,
+    "stock": 100,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "42fe30b3-8291-42ef-b499-1f4163498ccc",
+    "sku": "PROD-0047",
+    "name": "Thermal Paste",
+    "price_cents": 7722,
+    "stock": 111,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "a5a77b38-4535-4aa8-926f-de4bfc6c1023",
+    "sku": "PROD-0048",
+    "name": "Motherboard",
+    "price_cents": 7879,
+    "stock": 122,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "1c8fac50-c8d3-44ec-8efc-fc6c200b567a",
+    "sku": "PROD-0049",
+    "name": "Sound Card",
+    "price_cents": 8036,
+    "stock": 133,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "18ee3d2a-feb2-4016-9da3-304fed15315b",
+    "sku": "PROD-0050",
+    "name": "Video Card",
+    "price_cents": 8193,
+    "stock": 144,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "9c98d1c9-1571-43a5-ba8c-0217eb2cb582",
+    "sku": "PROD-0051",
+    "name": "USB Flash Drive",
+    "price_cents": 8350,
+    "stock": 155,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "f55bbfa8-cd09-4847-8d69-8ee45599d757",
+    "sku": "PROD-0052",
+    "name": "External Hard Drive",
+    "price_cents": 8507,
+    "stock": 166,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "7c3cc497-a9de-44e4-9a04-5095b67fcac5",
+    "sku": "PROD-0053",
+    "name": "SD Card",
+    "price_cents": 8664,
+    "stock": 177,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "f5e7d7b8-70a0-495d-a834-741a992162c9",
+    "sku": "PROD-0054",
+    "name": "Memory Card",
+    "price_cents": 8821,
+    "stock": 188,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "acc3d7d8-245c-4a97-9725-2146f6b51ade",
+    "sku": "PROD-0055",
+    "name": "Card Reader",
+    "price_cents": 8978,
+    "stock": 199,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "d615a5f6-4705-431d-b5cb-df651b21917e",
+    "sku": "PROD-0056",
+    "name": "Monitor",
+    "price_cents": 9135,
+    "stock": 10,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "608ae4cc-7d1f-4291-8022-def331eaef0f",
+    "sku": "PROD-0057",
+    "name": "Television",
+    "price_cents": 9292,
+    "stock": 21,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "9436b93f-0e87-4406-aef8-026a1ad958c0",
+    "sku": "PROD-0058",
+    "name": "Speaker System",
+    "price_cents": 9449,
+    "stock": 32,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "d95306ea-cf1b-47f4-bc61-3a20d4f99715",
+    "sku": "PROD-0059",
+    "name": "Soundbar",
+    "price_cents": 9606,
+    "stock": 43,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "5c609a78-8581-4e79-8925-1d3f5c6fc067",
+    "sku": "PROD-0060",
+    "name": "Headset",
+    "price_cents": 9763,
+    "stock": 54,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "c63545d4-a2a6-48a2-9660-4dfc9e0cac97",
+    "sku": "PROD-0061",
+    "name": "Mechanical Switch",
+    "price_cents": 9920,
+    "stock": 65,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "9c441dc6-4611-407d-a1aa-ecd0bafec00b",
+    "sku": "PROD-0062",
+    "name": "Keycap Set",
+    "price_cents": 10077,
+    "stock": 76,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "e38be570-8d0f-405d-b767-383cd78003f5",
+    "sku": "PROD-0063",
+    "name": "Stabilizer",
+    "price_cents": 10234,
+    "stock": 87,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "be64c138-5a05-4a02-b0ae-36cff1b1c89f",
+    "sku": "PROD-0064",
+    "name": "Encoder",
+    "price_cents": 10391,
+    "stock": 98,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "d6b4bd47-249f-4c6e-8cfe-d3ea6703e278",
+    "sku": "PROD-0065",
+    "name": "Rotary",
+    "price_cents": 10548,
+    "stock": 109,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "b2a9e63d-852a-418a-ad70-5a4ddee2382e",
+    "sku": "PROD-0066",
+    "name": "Desk Pad",
+    "price_cents": 10705,
+    "stock": 120,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "45a413ff-aca4-40bb-b0af-49b245a22e74",
+    "sku": "PROD-0067",
+    "name": "Wall Mount",
+    "price_cents": 10862,
+    "stock": 131,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "37f133a8-3cad-47b9-a430-43efccf80f25",
+    "sku": "PROD-0068",
+    "name": "Shelf Bracket",
+    "price_cents": 11019,
+    "stock": 142,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "54564d67-d645-4a49-8136-cacc69d8ca33",
+    "sku": "PROD-0069",
+    "name": "Clamp",
+    "price_cents": 11176,
+    "stock": 153,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "c768dc00-0c94-4551-9e3a-77aeddbbdc84",
+    "sku": "PROD-0070",
+    "name": "Extension Cord",
+    "price_cents": 11333,
+    "stock": 164,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "87d427e2-601a-4b0c-9515-fe5d513cbcc6",
+    "sku": "PROD-0071",
+    "name": "LED Strip",
+    "price_cents": 11490,
+    "stock": 175,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "835680a5-a1b4-4aa4-a269-a342129e9282",
+    "sku": "PROD-0072",
+    "name": "Smart Bulb",
+    "price_cents": 11647,
+    "stock": 186,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "646b80ee-fef8-4840-9177-1b422b850697",
+    "sku": "PROD-0073",
+    "name": "Light Dimmer",
+    "price_cents": 11804,
+    "stock": 197,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "f3496844-1004-4174-98ad-516c646cef64",
+    "sku": "PROD-0074",
+    "name": "Motion Sensor",
+    "price_cents": 11961,
+    "stock": 8,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "aded31c2-66a8-4e15-9bae-11f1aa6ba781",
+    "sku": "PROD-0075",
+    "name": "Door Lock",
+    "price_cents": 12118,
+    "stock": 19,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "12aa8e97-8dca-4dab-a02f-f9663478aaaa",
+    "sku": "PROD-0076",
+    "name": "Keyboard Switches - Linear",
+    "price_cents": 12275,
+    "stock": 30,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "399b47b7-e4de-43eb-ba6f-cc2cf727db89",
+    "sku": "PROD-0077",
+    "name": "Keyboard Switches - Tactile",
+    "price_cents": 12432,
+    "stock": 41,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "8f0960fd-1c93-4f80-8d10-f9b352371d50",
+    "sku": "PROD-0078",
+    "name": "Keyboard Switches - Clicky",
+    "price_cents": 12589,
+    "stock": 52,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "71787537-c4b2-49c9-87d9-b5fdffa0442a",
+    "sku": "PROD-0079",
+    "name": "PCB",
+    "price_cents": 12746,
+    "stock": 63,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "c1a49504-75e0-4ad5-b87a-3af066c19eda",
+    "sku": "PROD-0080",
+    "name": "Stabilizers",
+    "price_cents": 12903,
+    "stock": 74,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "31eff186-de03-4391-a6eb-8f6c6caac0b1",
+    "sku": "PROD-0081",
+    "name": "Hotswap Socket",
+    "price_cents": 13060,
+    "stock": 85,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "948198a2-f8ae-47e8-a40f-2cf792602429",
+    "sku": "PROD-0082",
+    "name": "Gasket Strip",
+    "price_cents": 13217,
+    "stock": 96,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "beb7c509-64d1-4fe3-a253-8570bacf7b7f",
+    "sku": "PROD-0083",
+    "name": "Mounting Plate",
+    "price_cents": 13374,
+    "stock": 107,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "1277de8e-37b3-409d-9f8b-2838a85d5c5d",
+    "sku": "PROD-0084",
+    "name": "Case Foam",
+    "price_cents": 13531,
+    "stock": 118,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "bc444b7f-af01-4fdd-9a2b-4c5be38ebf62",
+    "sku": "PROD-0085",
+    "name": "Stabilizer Film",
+    "price_cents": 13688,
+    "stock": 129,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "0ae92057-67a2-4070-95f9-1ff2dfe6bc20",
+    "sku": "PROD-0086",
+    "name": "Keycap Puller",
+    "price_cents": 13845,
+    "stock": 140,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "7251fc24-9a58-4d7b-aaee-d9a6a1d8e03c",
+    "sku": "PROD-0087",
+    "name": "Switch Tester",
+    "price_cents": 14002,
+    "stock": 151,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "afbd117e-aaae-4753-9489-b41408114a2a",
+    "sku": "PROD-0088",
+    "name": "Lube Station",
+    "price_cents": 14159,
+    "stock": 162,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "d95c49ab-8e3c-4146-b2df-678e5da2b09f",
+    "sku": "PROD-0089",
+    "name": "Brush Set",
+    "price_cents": 14316,
+    "stock": 173,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "df032cac-7ce8-43f5-a3f6-dac12c41a681",
+    "sku": "PROD-0090",
+    "name": "Cleaning Kit",
+    "price_cents": 14473,
+    "stock": 184,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "731571e8-74b0-4650-928a-f3614503915d",
+    "sku": "PROD-0091",
+    "name": "Mechanical Watch",
+    "price_cents": 14630,
+    "stock": 195,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "4138fd52-0c45-4395-84ec-945fb715bd8c",
+    "sku": "PROD-0092",
+    "name": "Smart Watch",
+    "price_cents": 14787,
+    "stock": 6,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "51b70fc9-6685-4bfd-83cf-0b696743f2b0",
+    "sku": "PROD-0093",
+    "name": "Fitness Tracker",
+    "price_cents": 14944,
+    "stock": 17,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "9b63ba8f-e216-4c0b-a321-0e7c23f8aff5",
+    "sku": "PROD-0094",
+    "name": "Activity Monitor",
+    "price_cents": 15101,
+    "stock": 28,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "ff104488-27df-49cf-8bcb-65cf670666c4",
+    "sku": "PROD-0095",
+    "name": "Heart Rate Monitor",
+    "price_cents": 15258,
+    "stock": 39,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "ab020b75-a505-405f-b863-a0b398898fd4",
+    "sku": "PROD-0096",
+    "name": "Portable Speaker",
+    "price_cents": 15415,
+    "stock": 50,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "006b7f42-4ce5-4340-b09e-848fc2cd672f",
+    "sku": "PROD-0097",
+    "name": "Waterproof Speaker",
+    "price_cents": 572,
+    "stock": 61,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "52e6e0e2-2b12-4f9e-be4e-606d8c4cb539",
+    "sku": "PROD-0098",
+    "name": "Bluetooth Speaker",
+    "price_cents": 729,
+    "stock": 72,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "8d55617d-4531-4589-a5be-539ce17286c8",
+    "sku": "PROD-0099",
+    "name": "Studio Monitor",
+    "price_cents": 886,
+    "stock": 83,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "cbfca731-9ff0-4cee-b98b-5a98483a6845",
+    "sku": "PROD-0100",
+    "name": "Bookshelf Speaker",
+    "price_cents": 1043,
+    "stock": 94,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "a6e17fe5-4dff-4a58-817c-eb787ed96818",
+    "sku": "PROD-0101",
+    "name": "USB Microphone",
+    "price_cents": 1200,
+    "stock": 105,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "2d3fc26b-cecb-42a5-a4ef-faeb03bca8de",
+    "sku": "PROD-0102",
+    "name": "Condenser Microphone",
+    "price_cents": 1357,
+    "stock": 116,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "90132fa8-7f11-43f5-be4e-232003c869b6",
+    "sku": "PROD-0103",
+    "name": "Dynamic Microphone",
+    "price_cents": 1514,
+    "stock": 127,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "f5604340-39f2-4187-9eef-55bf56edfe9d",
+    "sku": "PROD-0104",
+    "name": "Microphone Stand",
+    "price_cents": 1671,
+    "stock": 138,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "5f5b0953-4a72-4db3-867a-6c8c249fe34a",
+    "sku": "PROD-0105",
+    "name": "Pop Filter",
+    "price_cents": 1828,
+    "stock": 149,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "53397859-576c-4e96-98e5-62861aac1507",
+    "sku": "PROD-0106",
+    "name": "Studio Headphones",
+    "price_cents": 1985,
+    "stock": 160,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "4f9f7a56-1f1f-499f-bc80-bd3f4d9f7e75",
+    "sku": "PROD-0107",
+    "name": "Noise-Canceling Headphones",
+    "price_cents": 2142,
+    "stock": 171,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "989a4b28-00e7-44f6-9f4f-d8cb1ae93f07",
+    "sku": "PROD-0108",
+    "name": "Earbuds",
+    "price_cents": 2299,
+    "stock": 182,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "00f30e18-611d-415e-a0c1-6b05b7818b62",
+    "sku": "PROD-0109",
+    "name": "In-Ear Monitor",
+    "price_cents": 2456,
+    "stock": 193,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "4897c680-c35b-434f-a94c-f3b2712bbabd",
+    "sku": "PROD-0110",
+    "name": "Over-Ear Headphones",
+    "price_cents": 2613,
+    "stock": 204,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "ebba92e3-42b4-4b74-945e-1edd59dc5a0f",
+    "sku": "PROD-0111",
+    "name": "Keyboard Switch Lubricant",
+    "price_cents": 2770,
+    "stock": 15,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "186b87ac-cd1b-4686-a728-7447e0f638f9",
+    "sku": "PROD-0112",
+    "name": "Keyboard Stabilizer Grease",
+    "price_cents": 2927,
+    "stock": 26,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "f02d2883-e1b8-460c-bc2b-e3373dcbd76f",
+    "sku": "PROD-0113",
+    "name": "Thermal Compound",
+    "price_cents": 3084,
+    "stock": 37,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "4ba8207f-e2ed-41e5-9aea-bdc1a5e08dae",
+    "sku": "PROD-0114",
+    "name": "Thermal Pad",
+    "price_cents": 3241,
+    "stock": 48,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "e52509c8-61c1-44bc-9841-ccbbccb44ffa",
+    "sku": "PROD-0115",
+    "name": "Arctic Silver",
+    "price_cents": 3398,
+    "stock": 59,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "c916661c-bf5c-422e-bcb3-c32d6d7a01e5",
+    "sku": "PROD-0116",
+    "name": "Desk Setup Kit",
+    "price_cents": 3555,
+    "stock": 70,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "ffe68cfa-c594-4043-8c76-56f077dc0bf4",
+    "sku": "PROD-0117",
+    "name": "Cable Management Kit",
+    "price_cents": 3712,
+    "stock": 81,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "7a1d1e4a-da5d-404c-abff-b26b989fc19c",
+    "sku": "PROD-0118",
+    "name": "Mounting Hardware",
+    "price_cents": 3869,
+    "stock": 92,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "8465c2c9-3c7e-4161-a2cb-485d7365ed6e",
+    "sku": "PROD-0119",
+    "name": "Screwdriver Set",
+    "price_cents": 4026,
+    "stock": 103,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "57f280ee-382f-4b85-bc18-bf162d9fc102",
+    "sku": "PROD-0120",
+    "name": "Tool Kit",
+    "price_cents": 4183,
+    "stock": 114,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "3c6aac40-f8bd-4878-aa75-f2063c4ccce5",
+    "sku": "PROD-0121",
+    "name": "Laptop Stand",
+    "price_cents": 4340,
+    "stock": 125,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "12b9f147-93b9-4672-8f09-77f109162beb",
+    "sku": "PROD-0122",
+    "name": "Tablet Stand",
+    "price_cents": 4497,
+    "stock": 136,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "0c9184f1-f288-49c1-ab06-8d5e2e9ea1eb",
+    "sku": "PROD-0123",
+    "name": "Phone Holder",
+    "price_cents": 4654,
+    "stock": 147,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "71832d20-5c7f-4238-854a-6d0e8df143f9",
+    "sku": "PROD-0124",
+    "name": "Desk Shelf",
+    "price_cents": 4811,
+    "stock": 158,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "7229eefc-a361-4674-afb7-289ec4b330aa",
+    "sku": "PROD-0125",
+    "name": "Wall Shelf",
+    "price_cents": 4968,
+    "stock": 169,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "ba802c64-3fb0-4883-926e-d31da33fbb3a",
+    "sku": "PROD-0126",
+    "name": "Document Organizer",
+    "price_cents": 5125,
+    "stock": 180,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "12ade038-437a-4837-893d-2269bc552f97",
+    "sku": "PROD-0127",
+    "name": "Desk Tray",
+    "price_cents": 5282,
+    "stock": 191,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "5f6c851f-9c74-4de2-89f3-9cc613e33269",
+    "sku": "PROD-0128",
+    "name": "File Holder",
+    "price_cents": 5439,
+    "stock": 202,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "67209e3f-3a8f-4b93-9ef3-2c3feb3c400a",
+    "sku": "PROD-0129",
+    "name": "Letter Holder",
+    "price_cents": 5596,
+    "stock": 13,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "c8d6ef49-cec7-471f-9f42-3c6c402e4cbd",
+    "sku": "PROD-0130",
+    "name": "Magazine Rack",
+    "price_cents": 5753,
+    "stock": 24,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "d961fddb-d41e-4d91-97db-824fe3e7d99f",
+    "sku": "PROD-0131",
+    "name": "Sticky Notes",
+    "price_cents": 5910,
+    "stock": 35,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "e9d4c630-7974-42c5-b54e-d2111e3b0979",
+    "sku": "PROD-0132",
+    "name": "Whiteboard",
+    "price_cents": 6067,
+    "stock": 46,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "7a51de28-52dc-4d02-9e30-ca97517055bd",
+    "sku": "PROD-0133",
+    "name": "Dry Erase Marker",
+    "price_cents": 6224,
+    "stock": 57,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "2447db29-5025-420a-a405-fe69265305f1",
+    "sku": "PROD-0134",
+    "name": "Highlighter Set",
+    "price_cents": 6381,
+    "stock": 68,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "357c252e-0625-4e34-b921-add2c2333fbf",
+    "sku": "PROD-0135",
+    "name": "Pen Set",
+    "price_cents": 6538,
+    "stock": 79,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "e89591d5-1ab9-400f-8c18-501b61d4ac33",
+    "sku": "PROD-0136",
+    "name": "Notebook",
+    "price_cents": 6695,
+    "stock": 90,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "0152aaf1-46b0-4823-abfb-ac46b2939f53",
+    "sku": "PROD-0137",
+    "name": "Journal",
+    "price_cents": 6852,
+    "stock": 101,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "7bbbf91c-4ecc-46f0-be10-a03dc944074f",
+    "sku": "PROD-0138",
+    "name": "Planner",
+    "price_cents": 7009,
+    "stock": 112,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "5036b06d-a50a-4015-a516-cbd7cf4b675e",
+    "sku": "PROD-0139",
+    "name": "Calendar",
+    "price_cents": 7166,
+    "stock": 123,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "378b0068-6935-4170-88f0-7922ba05833c",
+    "sku": "PROD-0140",
+    "name": "To-Do List Pad",
+    "price_cents": 7323,
+    "stock": 134,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "dffa876b-98a2-4ec9-93b8-1d798b28a6f8",
+    "sku": "PROD-0141",
+    "name": "Desk Calendar",
+    "price_cents": 7480,
+    "stock": 145,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "571d4363-44a2-4281-83dc-85b0f231b100",
+    "sku": "PROD-0142",
+    "name": "Desktop Organizer",
+    "price_cents": 7637,
+    "stock": 156,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "b9604263-2b5b-42ea-a460-3c63569e449e",
+    "sku": "PROD-0143",
+    "name": "Desktop Accessories",
+    "price_cents": 7794,
+    "stock": 167,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "e9ee9c02-7564-4bf4-9f8b-7cd5b7f04ba4",
+    "sku": "PROD-0144",
+    "name": "Office Supplies",
+    "price_cents": 7951,
+    "stock": 178,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "1f287a1e-9514-43fd-8a1e-5bc265257992",
+    "sku": "PROD-0145",
+    "name": "Stationery Set",
+    "price_cents": 8108,
+    "stock": 189,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "0a7e2670-885b-4917-a3ed-d8031301900d",
+    "sku": "PROD-0146",
+    "name": "Mouse Grip Tape",
+    "price_cents": 8265,
+    "stock": 200,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "de32d7a9-e6e3-4834-a183-c0e169f723a5",
+    "sku": "PROD-0147",
+    "name": "Keyboard Wrist Support",
+    "price_cents": 8422,
+    "stock": 11,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "6f35dc7c-a626-4f2a-8924-76322202ca1a",
+    "sku": "PROD-0148",
+    "name": "Monitor Light Bar",
+    "price_cents": 8579,
+    "stock": 22,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "0c602cd6-9f00-4c9f-a827-56fe736d495a",
+    "sku": "PROD-0149",
+    "name": "Screen Clip Light",
+    "price_cents": 8736,
+    "stock": 33,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "7f23bd53-8144-491d-ac9e-599775f3f729",
+    "sku": "PROD-0150",
+    "name": "Desk Lamp LED",
+    "price_cents": 8893,
+    "stock": 44,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "908dc018-df45-45a4-ab85-210fc6c80674",
+    "sku": "PROD-0151",
+    "name": "USB Extension Cable",
+    "price_cents": 9050,
+    "stock": 55,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "1923908f-ad85-4e8f-a4b6-90b69133d5cc",
+    "sku": "PROD-0152",
+    "name": "HDMI Extension",
+    "price_cents": 9207,
+    "stock": 66,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "fc06b993-c189-406d-9038-878e4437a227",
+    "sku": "PROD-0153",
+    "name": "DP Extension",
+    "price_cents": 9364,
+    "stock": 77,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "b0db5328-1e31-44fd-89e8-cf8e6e3c8a60",
+    "sku": "PROD-0154",
+    "name": "USB 3.0 Cable",
+    "price_cents": 9521,
+    "stock": 88,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "a89182a1-1ed7-4b7a-a447-e931ee5a2500",
+    "sku": "PROD-0155",
+    "name": "USB 2.0 Cable",
+    "price_cents": 9678,
+    "stock": 99,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "b9dac5aa-99e4-40df-90ff-9e1f08351460",
+    "sku": "PROD-0156",
+    "name": "Thunderbolt Cable",
+    "price_cents": 9835,
+    "stock": 110,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "22552ca4-b7c5-4958-a5fb-94a1527c3262",
+    "sku": "PROD-0157",
+    "name": "Lightning Cable",
+    "price_cents": 9992,
+    "stock": 121,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "c5919d20-fc1e-467f-9447-6e8a4c02a65b",
+    "sku": "PROD-0158",
+    "name": "Micro USB Cable",
+    "price_cents": 10149,
+    "stock": 132,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "0c375614-1337-41c2-b3e9-16d4dd4b8e93",
+    "sku": "PROD-0159",
+    "name": "Mini USB Cable",
+    "price_cents": 10306,
+    "stock": 143,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "9c161e2e-1583-438a-8e97-7912548f0caf",
+    "sku": "PROD-0160",
+    "name": "USB Type-C Adapter",
+    "price_cents": 10463,
+    "stock": 154,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "a4c57915-0e92-49bb-b8b9-ac4d99f2d5df",
+    "sku": "PROD-0161",
+    "name": "Phone Charger",
+    "price_cents": 10620,
+    "stock": 165,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "4f2d5421-c09f-4af2-8801-07bf1fd81792",
+    "sku": "PROD-0162",
+    "name": "Tablet Charger",
+    "price_cents": 10777,
+    "stock": 176,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "b2c537e8-0f8b-495b-a954-6b67fd093efd",
+    "sku": "PROD-0163",
+    "name": "Laptop Charger",
+    "price_cents": 10934,
+    "stock": 187,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "69888926-39fd-4e10-8061-7214c29694eb",
+    "sku": "PROD-0164",
+    "name": "Universal Charger",
+    "price_cents": 11091,
+    "stock": 198,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "b79ea874-dbf4-4bbc-92f1-0fa038975993",
+    "sku": "PROD-0165",
+    "name": "Fast Charger",
+    "price_cents": 11248,
+    "stock": 9,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "70c1f9ed-6b94-497c-a547-012bed2420cf",
+    "sku": "PROD-0166",
+    "name": "Charging Cable Bundle",
+    "price_cents": 11405,
+    "stock": 20,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "a6caea8c-4217-4dc6-98b2-ab755c6ecf4c",
+    "sku": "PROD-0167",
+    "name": "Multi-Port Charger",
+    "price_cents": 11562,
+    "stock": 31,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "a77bb82a-77df-4450-9639-c742b2fbc28b",
+    "sku": "PROD-0168",
+    "name": "Wireless Charging Pad",
+    "price_cents": 11719,
+    "stock": 42,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "092178d9-13b6-48fc-ba9f-4358c1668ccd",
+    "sku": "PROD-0169",
+    "name": "Charging Dock",
+    "price_cents": 11876,
+    "stock": 53,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "47af31dd-2c18-4700-9bc0-5780a54e8512",
+    "sku": "PROD-0170",
+    "name": "Battery Pack",
+    "price_cents": 12033,
+    "stock": 64,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "4a453efa-f588-40f3-b03b-b80c7d70f2ab",
+    "sku": "PROD-0171",
+    "name": "Keyboard RGB Kit",
+    "price_cents": 12190,
+    "stock": 75,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "13051cd2-d8e5-4b90-829a-c22df6082b48",
+    "sku": "PROD-0172",
+    "name": "Mouse RGB Kit",
+    "price_cents": 12347,
+    "stock": 86,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "cb3ff326-fe6e-42a9-a5a4-5d9cee0abe03",
+    "sku": "PROD-0173",
+    "name": "RGB LED Strip",
+    "price_cents": 12504,
+    "stock": 97,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "fddc4d2e-8417-440d-b1bf-84681be6fd72",
+    "sku": "PROD-0174",
+    "name": "RGB Controller",
+    "price_cents": 12661,
+    "stock": 108,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "27995431-d4cd-4e7f-92b2-a2be7f44ea2e",
+    "sku": "PROD-0175",
+    "name": "RGB Hub",
+    "price_cents": 12818,
+    "stock": 119,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "fa55f52e-cac6-4a58-b9a5-9d9c124e5720",
+    "sku": "PROD-0176",
+    "name": "Gaming Desk",
+    "price_cents": 12975,
+    "stock": 130,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "5a123228-20ad-4abe-be71-2021e683ab91",
+    "sku": "PROD-0177",
+    "name": "Gaming Chair",
+    "price_cents": 13132,
+    "stock": 141,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "a850f541-24ca-48cc-bf06-6da1197b9bab",
+    "sku": "PROD-0178",
+    "name": "Gaming Monitor",
+    "price_cents": 13289,
+    "stock": 152,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "94608de6-ced1-4d21-9920-1119e4260403",
+    "sku": "PROD-0179",
+    "name": "Gaming Headset",
+    "price_cents": 13446,
+    "stock": 163,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "2c1a8583-4657-447a-bddd-3f120d173717",
+    "sku": "PROD-0180",
+    "name": "Gaming Mouse Pad",
+    "price_cents": 13603,
+    "stock": 174,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "1b0f70bf-4b98-46c3-9221-01ed25ad49fd",
+    "sku": "PROD-0181",
+    "name": "Gaming Keyboard",
+    "price_cents": 13760,
+    "stock": 185,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "1f1e4a0e-bd3f-4f02-8dee-e4d99b991bc0",
+    "sku": "PROD-0182",
+    "name": "Gaming PC",
+    "price_cents": 13917,
+    "stock": 196,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "02ecdf2c-258b-440e-adc5-09b39f146fde",
+    "sku": "PROD-0183",
+    "name": "Gaming Laptop",
+    "price_cents": 14074,
+    "stock": 7,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "3434bc44-5bc5-450e-9f29-f332e047c586",
+    "sku": "PROD-0184",
+    "name": "Game Controller",
+    "price_cents": 14231,
+    "stock": 18,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "a05c5901-9b57-43c8-85d2-1fb7177c3913",
+    "sku": "PROD-0185",
+    "name": "Joystick",
+    "price_cents": 14388,
+    "stock": 29,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "50162c0c-d226-4d7a-9f17-f6d0e10af459",
+    "sku": "PROD-0186",
+    "name": "Flight Stick",
+    "price_cents": 14545,
+    "stock": 40,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "b3640e3f-98bd-4336-8c56-b8ec5ae4aa81",
+    "sku": "PROD-0187",
+    "name": "Racing Wheel",
+    "price_cents": 14702,
+    "stock": 51,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "d1954bd0-89c6-4668-b837-9507e1dfbc8d",
+    "sku": "PROD-0188",
+    "name": "Pedal Set",
+    "price_cents": 14859,
+    "stock": 62,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "08d35541-17b2-494c-b294-a3b49fbeab95",
+    "sku": "PROD-0189",
+    "name": "Shifter",
+    "price_cents": 15016,
+    "stock": 73,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "822432b7-79f8-44f3-9ea2-492c5f2c7e62",
+    "sku": "PROD-0190",
+    "name": "Handbrake",
+    "price_cents": 15173,
+    "stock": 84,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "f012f041-95b8-4927-9fe7-668b19c9a071",
+    "sku": "PROD-0191",
+    "name": "VR Headset",
+    "price_cents": 15330,
+    "stock": 95,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "81bb6b50-a53a-4837-91d9-d0bb35c9c501",
+    "sku": "PROD-0192",
+    "name": "VR Controller",
+    "price_cents": 15487,
+    "stock": 106,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "1c7d6072-970f-4863-b14a-f9c411211744",
+    "sku": "PROD-0193",
+    "name": "VR Tracker",
+    "price_cents": 644,
+    "stock": 117,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "c2809c21-439c-441b-bb62-cd7b5b46cbf0",
+    "sku": "PROD-0194",
+    "name": "VR Base Station",
+    "price_cents": 801,
+    "stock": 128,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "f77b6e5b-b144-4f95-b0fc-46e187c95b5b",
+    "sku": "PROD-0195",
+    "name": "VR Cable",
+    "price_cents": 958,
+    "stock": 139,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "cc0fb047-e839-40c2-8663-91c35094fe26",
+    "sku": "PROD-0196",
+    "name": "Streaming Setup Bundle",
+    "price_cents": 1115,
+    "stock": 150,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "e48e1eb9-de8c-4f7c-93ec-023166c05648",
+    "sku": "PROD-0197",
+    "name": "Streaming Microphone",
+    "price_cents": 1272,
+    "stock": 161,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "b0789fda-ea20-4629-b0af-ec77b518a478",
+    "sku": "PROD-0198",
+    "name": "Stream Deck",
+    "price_cents": 1429,
+    "stock": 172,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "d4898d86-3152-40dc-8617-cec6321522ef",
+    "sku": "PROD-0199",
+    "name": "Capture Card",
+    "price_cents": 1586,
+    "stock": 183,
+    "created_at": "2025-01-01T00:00:00Z"
+  },
+  {
+    "id": "f92d2fa2-df33-4e49-aaec-bcb413bb9a64",
+    "sku": "PROD-0200",
+    "name": "Green Screen",
+    "price_cents": 1743,
+    "stock": 194,
+    "created_at": "2025-01-01T00:00:00Z"
+  }
+]
