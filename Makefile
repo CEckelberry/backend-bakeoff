@@ -17,7 +17,7 @@ dev:
 	@echo "  - PHP backend:  localhost:8086"
 	@echo "  - Tax service:  localhost:8087"
 	@echo "  - Router:       localhost:8090"
-	@echo "  - Prometheus:   localhost:9091 (alt port, internal: 9090)"
+	@echo "  - Prometheus:   localhost:9092 (alt port, internal: 9090)"
 	@echo "  - Grafana:      localhost:3001"
 	@echo ""
 
