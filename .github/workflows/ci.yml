@@ -1,0 +1,63 @@
+name: "Phase 0: Foundation"
+
+on:
+  push:
+    branches: [main, phase-0-foundation]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-openapi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Lint OpenAPI
+        run: npx @redocly/cli lint api/openapi.yaml
+
+  validate-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Required Files
+        run: |
+          for file in api/openapi.yaml packages/seed-data/products.json docker-compose.yml Makefile; do
+            if [ ! -f "$file" ]; then
+              echo "❌ Missing required file: $file"
+              exit 1
+            fi
+          done
+          echo "✅ All required files present"
+      - name: Check OpenAPI Endpoints
+        run: |
+          ENDPOINTS=$(grep -E '^  /' api/openapi.yaml | awk '{print $1}' | tr -d '/')
+          for ep in $ENDPOINTS; do
+            if [[ "$ep" != "checkout" && "$ep" != "health" ]]; then
+              echo "❌ Forbidden endpoint found in OpenAPI: /$ep"
+              exit 1
+            fi
+          done
+          echo "✅ Only allowed endpoints present"
+
+  test-docker-compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Docker Compose Config
+        run: |
+          SERVICE_COUNT=$(docker compose config --services | wc -l)
+          if [ "$SERVICE_COUNT" -ne 9 ]; then
+            echo "❌ Expected 9 services in docker-compose, found $SERVICE_COUNT"
+            exit 1
+          fi
+          echo "✅ Docker compose has exactly 9 services"
+      - name: Check for TODOs
+        run: |
+          if grep -rE "TODO|FIXME" packages/ api/ --include="*.json" --include="*.yaml" --include="*.yml" 2>/dev/null; then
+            echo "❌ Found TODO or FIXME comments in source code"
+            exit 1
+          fi
+          echo "✅ No TODO/FIXME comments found"
