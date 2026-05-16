@@ -1,0 +1,15 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS', 5) %>
+  url: <%= ENV['DATABASE_URL'] %>
+  schema_search_path: bakeoff_rails
+
+production:
+  <<: *default
+
+development:
+  <<: *default
+
+test:
+  <<: *default

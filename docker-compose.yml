@@ -67,17 +67,19 @@ services:
     networks:
       - backend-network
 
-  bo-bun:
-    build: ./apps/backends/bun
+  bo-rails:
+    build: ./apps/backends/rails
     ports:
       - "8083:8080"
     environment:
-      DATABASE_URL: postgresql://postgres:password@db:5432/bakeoff?search_path=bakeoff_bun
+      DATABASE_URL: postgresql://postgres:password@db:5432/bakeoff?search_path=bakeoff_rails
       TAX_SERVICE_URL: http://tax-service:8080
-      RUNTIME_NAME: bun
+      RUNTIME_NAME: rails
       LOG_LEVEL: info
-      LISTEN_ADDR: 0.0.0.0
-      LISTEN_PORT: 8080
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: "true"
+      RAILS_MAX_THREADS: "5"
+      WEB_CONCURRENCY: "2"
     depends_on:
       db-init:
         condition: service_completed_successfully

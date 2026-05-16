@@ -1,7 +1,7 @@
 -- Create schemas for each runtime
 CREATE SCHEMA IF NOT EXISTS bakeoff_go;
 CREATE SCHEMA IF NOT EXISTS bakeoff_rust;
-CREATE SCHEMA IF NOT EXISTS bakeoff_bun;
+CREATE SCHEMA IF NOT EXISTS bakeoff_rails;
 CREATE SCHEMA IF NOT EXISTS bakeoff_node;
 CREATE SCHEMA IF NOT EXISTS bakeoff_python;
 CREATE SCHEMA IF NOT EXISTS bakeoff_php;
@@ -10,7 +10,7 @@ CREATE SCHEMA IF NOT EXISTS bakeoff_php;
 DO $$ 
 DECLARE 
     schema_name TEXT;
-    schemas TEXT[] := ARRAY['bakeoff_go', 'bakeoff_rust', 'bakeoff_bun', 'bakeoff_node', 'bakeoff_python', 'bakeoff_php'];
+    schemas TEXT[] := ARRAY['bakeoff_go', 'bakeoff_rust', 'bakeoff_rails', 'bakeoff_node', 'bakeoff_python', 'bakeoff_php'];
 BEGIN 
     FOREACH schema_name IN ARRAY schemas LOOP
         -- Create products table
