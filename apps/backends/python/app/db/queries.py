@@ -19,7 +19,7 @@ async def insert_order(
     tax_cents: int,
     items: List[dict],
 ) -> None:
-    async with pool.acquire() as conn:
+    async with pool.acquire(timeout=5.0) as conn:
         async with conn.transaction():
             # Insert order
             await conn.execute(

@@ -2,6 +2,33 @@ import { Pool } from 'pg';
 import { v4 as uuidv4 } from 'uuid';
 import { Product, Order, OrderItem } from '../types.js';
 
+export async function getProductById(pool: Pool, id: string): Promise<{ id: string; sku: string; name: string; price_cents: number; stock: number } | null> {
+  const result = await pool.query(
+    'SELECT id, sku, name, price_cents, stock FROM bakeoff_node.products WHERE id = $1',
+    [id]
+  );
+  if (result.rows.length === 0) {
+    return null;
+  }
+  return result.rows[0];
+}
+
+export async function getOrderById(pool: Pool, id: string): Promise<{ id: string; customer_id: string; total_cents: number; tax_cents: number; created_at: Date; items: { product_id: string; quantity: number; price_cents: number }[] } | null> {
+  const orderResult = await pool.query(
+    'SELECT id, customer_id, total_cents, tax_cents, created_at FROM bakeoff_node.orders WHERE id = $1',
+    [id]
+  );
+  if (orderResult.rows.length === 0) {
+    return null;
+  }
+  const order = orderResult.rows[0];
+  const itemsResult = await pool.query(
+    'SELECT product_id, quantity, price_cents FROM bakeoff_node.order_items WHERE order_id = $1',
+    [id]
+  );
+  return { ...order, items: itemsResult.rows };
+}
+
 export async function getProduct(pool: Pool, productId: string): Promise<Product> {
   const result = await pool.query(
     'SELECT id, price_cents, stock FROM bakeoff_node.products WHERE id = $1',

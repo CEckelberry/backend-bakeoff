@@ -4,9 +4,16 @@ import { initPool } from './db/pool.js';
 import { healthHandler } from './handlers/health.js';
 import { checkoutHandler } from './handlers/checkout.js';
 import { metricsHandler } from './handlers/metrics.js';
+import { productsHandler } from './handlers/products.js';
+import { ordersRecentHandler } from './handlers/orders.js';
+import { productByIdHandler } from './handlers/products_single.js';
+import { orderByIdHandler } from './handlers/orders_single.js';
+import { revenueHandler } from './handlers/revenue.js';
 import { v4 as uuidv4 } from 'uuid';
-import { Counter, Histogram } from 'prom-client';
+import { Counter, Histogram, collectDefaultMetrics } from 'prom-client';
 import { FastifyRequest, FastifyReply } from 'fastify';
+
+collectDefaultMetrics();
 
 const config = loadConfig();
 
@@ -67,6 +74,26 @@ async function main() {
   
   fastify.get('/metrics', async (req: FastifyRequest, reply: FastifyReply) => {
     return metricsHandler(req, reply);
+  });
+
+  fastify.get('/products', async (req: FastifyRequest, reply: FastifyReply) => {
+    return productsHandler(req, reply, pool);
+  });
+
+  fastify.get('/products/:id', async (req: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
+    return productByIdHandler(req, reply, pool);
+  });
+
+  fastify.get('/orders/recent', async (req: FastifyRequest, reply: FastifyReply) => {
+    return ordersRecentHandler(req, reply, pool);
+  });
+
+  fastify.get('/orders/:id', async (req: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) => {
+    return orderByIdHandler(req, reply, pool);
+  });
+
+  fastify.get('/reports/revenue', async (req: FastifyRequest, reply: FastifyReply) => {
+    return revenueHandler(req, reply, pool);
   });
 
   try {

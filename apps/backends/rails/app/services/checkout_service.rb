@@ -8,7 +8,7 @@ class CheckoutService
   end
 
   def call(params)
-    cart           = params[:cart] || []
+    cart           = params[:items] || params[:cart] || []
     customer_id    = params[:customer_id].to_s
     shipping       = params[:shipping_address] || {}
 
@@ -60,7 +60,7 @@ class CheckoutService
 
         updated = Product.where(id: li[:product].id)
                          .where('stock >= ?', li[:quantity])
-                         .update_all('stock = stock - ?', li[:quantity])
+                         .update_all(["stock = stock - ?", li[:quantity]])
         raise StandardError, 'Insufficient stock' if updated == 0
       end
     end

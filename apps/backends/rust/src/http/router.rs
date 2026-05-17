@@ -1,10 +1,10 @@
-use axum::{routing::{get, post}, Router, extract::{DefaultBodyLimit, State}};
+use axum::{routing::{get, post}, Router, extract::DefaultBodyLimit};
 use sqlx::PgPool;
 use tower::ServiceBuilder;
 use std::sync::Arc;
 use prometheus::{Encoder, TextEncoder};
 
-use crate::http::handlers::{health, checkout};
+use crate::http::handlers::{health, checkout, products, orders};
 use crate::http::middleware::observability_middleware;
 use crate::clients::tax::TaxClient;
 use crate::observability::Metrics;
@@ -38,6 +38,11 @@ pub fn create_router(pool: PgPool, tax_client: TaxClient, metrics: Arc<Metrics>)
     let other_routes = Router::new()
         .route("/health", get(health::health))
         .route("/metrics", get(metrics_handler))
+        .route("/products", get(products::products))
+        .route("/products/:id", get(products::product_by_id))
+        .route("/orders/recent", get(orders::recent_orders))
+        .route("/orders/:id", get(orders::order_by_id))
+        .route("/reports/revenue", get(orders::revenue_report))
         .with_state(state)
         .layer(DefaultBodyLimit::max(1024 * 1024));
 

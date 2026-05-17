@@ -1,0 +1,8 @@
+name,method,path,payload_type,trials,concurrency
+checkout_single,POST,/checkout,checkout_1,10000,20
+checkout_max,POST,/checkout,checkout_8,2000,20
+products_list,GET,/products,,1000,20
+product_single,GET,/products/{id},,1000,20
+orders_recent,GET,/orders/recent,,1000,20
+order_single,GET,/orders/{id},,500,20
+revenue_report,GET,/reports/revenue,,500,20

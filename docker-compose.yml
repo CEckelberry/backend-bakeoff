@@ -80,6 +80,7 @@ services:
       RAILS_LOG_TO_STDOUT: "true"
       RAILS_MAX_THREADS: "5"
       WEB_CONCURRENCY: "2"
+      SECRET_KEY_BASE: "bakeoff_benchmark_not_a_real_secret_just_needs_to_be_set"
     depends_on:
       db-init:
         condition: service_completed_successfully
@@ -147,13 +148,27 @@ services:
     networks:
       - backend-network
 
-  # Router
+  # Results API — stores and serves benchmark runs. Separate from all six
+  # backends so it never consumes resources during an isolated bench run.
+  results-api:
+    build: ./apps/results-api
+    ports:
+      - "8091:8080"
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/bakeoff
+      PORT: "8080"
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+    networks:
+      - backend-network
+
+  # Router (placeholder — will forward X-Runtime header to the matching backend)
   router:
     image: python:3-alpine
     ports:
       - "8090:8080"
     command: python -m http.server 8080
-    
     networks:
       - backend-network
 

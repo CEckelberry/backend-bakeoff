@@ -18,8 +18,12 @@ echo "════════════════════════�
 echo ""
 
 # Step 1: Run migrations
-echo "🔨 Running migrations (001_init.sql)..."
+echo "🔨 Running migrations..."
 psql "$DATABASE_URL" < "$SCRIPT_DIR/migrations/001_init.sql"
+echo "✅ 001_init.sql applied"
+psql "$DATABASE_URL" < "$SCRIPT_DIR/migrations/002_benchmark_results.sql"
+echo "✅ 002_benchmark_results.sql applied"
+echo ""
 echo "✅ Migrations completed"
 echo ""
 

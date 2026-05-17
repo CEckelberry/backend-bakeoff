@@ -6,7 +6,7 @@ import uuid as uuid_module
 import structlog
 from app.config import load_config, Config
 from app.db.pool import init_pool, get_pool
-from app.handlers import health, checkout, metrics
+from app.handlers import health, checkout, metrics, products, orders
 from app.utils.logging import setup_logging
 from app.models.types import CheckoutRequest
 import asyncpg
@@ -49,6 +49,26 @@ async def checkout_endpoint(
     cfg: Config = Depends(load_config),
 ):
     return await checkout.checkout(req, pool, cfg.tax_service_url)
+
+@app.get('/products')
+async def products_endpoint(pool: asyncpg.Pool = Depends(get_pool)):
+    return await products.products(pool)
+
+@app.get('/products/{product_id}')
+async def product_by_id_endpoint(product_id: str, pool: asyncpg.Pool = Depends(get_pool)):
+    return await products.product_by_id(product_id, pool)
+
+@app.get('/orders/recent')
+async def orders_recent_endpoint(pool: asyncpg.Pool = Depends(get_pool)):
+    return await orders.recent_orders(pool)
+
+@app.get('/orders/{order_id}')
+async def order_by_id_endpoint(order_id: str, pool: asyncpg.Pool = Depends(get_pool)):
+    return await orders.order_by_id(order_id, pool)
+
+@app.get('/reports/revenue')
+async def revenue_report_endpoint(pool: asyncpg.Pool = Depends(get_pool)):
+    return await orders.revenue_report(pool)
 
 @app.get('/metrics')
 async def metrics_endpoint():

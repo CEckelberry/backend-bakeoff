@@ -182,6 +182,137 @@ func main() {
 	// Prometheus metrics endpoint
 	app.Get("/metrics", adaptor.HTTPHandler(promhttp.Handler()))
 
+	app.Get("/products", func(c *fiber.Ctx) error {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		rows, err := dbStore.Pool.Query(ctx,
+			"SELECT id, sku, name, price_cents, stock FROM bakeoff_go.products ORDER BY name")
+		if err != nil {
+			return c.Status(500).JSON(map[string]string{"error": err.Error()})
+		}
+		defer rows.Close()
+		products := []map[string]interface{}{}
+		for rows.Next() {
+			var id, sku, name string
+			var priceCents, stock int
+			if err := rows.Scan(&id, &sku, &name, &priceCents, &stock); err != nil {
+				return c.Status(500).JSON(map[string]string{"error": err.Error()})
+			}
+			products = append(products, map[string]interface{}{
+				"id": id, "sku": sku, "name": name, "price_cents": priceCents, "stock": stock,
+			})
+		}
+		return c.JSON(map[string]interface{}{"products": products})
+	})
+
+	app.Get("/products/:id", func(c *fiber.Ctx) error {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		id := c.Params("id")
+		var pid, sku, name string
+		var priceCents, stock int
+		err := dbStore.Pool.QueryRow(ctx,
+			"SELECT id, sku, name, price_cents, stock FROM bakeoff_go.products WHERE id = $1", id).
+			Scan(&pid, &sku, &name, &priceCents, &stock)
+		if err == pgx.ErrNoRows {
+			return c.Status(404).JSON(map[string]string{"error": "not found"})
+		}
+		if err != nil {
+			return c.Status(500).JSON(map[string]string{"error": err.Error()})
+		}
+		return c.JSON(map[string]interface{}{
+			"id": pid, "sku": sku, "name": name, "price_cents": priceCents, "stock": stock,
+		})
+	})
+
+	app.Get("/orders/recent", func(c *fiber.Ctx) error {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		rows, err := dbStore.Pool.Query(ctx,
+			"SELECT id, customer_id, total_cents, tax_cents, created_at FROM bakeoff_go.orders ORDER BY created_at DESC LIMIT 20")
+		if err != nil {
+			return c.Status(500).JSON(map[string]string{"error": err.Error()})
+		}
+		defer rows.Close()
+		orders := []map[string]interface{}{}
+		for rows.Next() {
+			var id, customerID string
+			var totalCents, taxCents int
+			var createdAt time.Time
+			if err := rows.Scan(&id, &customerID, &totalCents, &taxCents, &createdAt); err != nil {
+				return c.Status(500).JSON(map[string]string{"error": err.Error()})
+			}
+			orders = append(orders, map[string]interface{}{
+				"id": id, "customer_id": customerID, "total_cents": totalCents,
+				"tax_cents": taxCents, "created_at": createdAt,
+			})
+		}
+		return c.JSON(map[string]interface{}{"orders": orders})
+	})
+
+	app.Get("/orders/:id", func(c *fiber.Ctx) error {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		id := c.Params("id")
+		var oid, customerID string
+		var totalCents, taxCents int
+		var createdAt time.Time
+		err := dbStore.Pool.QueryRow(ctx,
+			"SELECT id, customer_id, total_cents, tax_cents, created_at FROM bakeoff_go.orders WHERE id = $1", id).
+			Scan(&oid, &customerID, &totalCents, &taxCents, &createdAt)
+		if err == pgx.ErrNoRows {
+			return c.Status(404).JSON(map[string]string{"error": "not found"})
+		}
+		if err != nil {
+			return c.Status(500).JSON(map[string]string{"error": err.Error()})
+		}
+		itemRows, err := dbStore.Pool.Query(ctx,
+			"SELECT product_id, quantity, price_cents FROM bakeoff_go.order_items WHERE order_id = $1", id)
+		if err != nil {
+			return c.Status(500).JSON(map[string]string{"error": err.Error()})
+		}
+		defer itemRows.Close()
+		items := []map[string]interface{}{}
+		for itemRows.Next() {
+			var productID string
+			var quantity, priceCents int
+			if err := itemRows.Scan(&productID, &quantity, &priceCents); err != nil {
+				return c.Status(500).JSON(map[string]string{"error": err.Error()})
+			}
+			items = append(items, map[string]interface{}{
+				"product_id": productID, "quantity": quantity, "price_cents": priceCents,
+			})
+		}
+		return c.JSON(map[string]interface{}{
+			"id": oid, "customer_id": customerID, "total_cents": totalCents,
+			"tax_cents": taxCents, "created_at": createdAt, "items": items,
+		})
+	})
+
+	app.Get("/reports/revenue", func(c *fiber.Ctx) error {
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		rows, err := dbStore.Pool.Query(ctx,
+			"SELECT DATE(created_at)::text as date, COUNT(*) as order_count, SUM(total_cents) as revenue_cents FROM bakeoff_go.orders WHERE created_at >= NOW() - INTERVAL '30 days' GROUP BY DATE(created_at) ORDER BY date DESC")
+		if err != nil {
+			return c.Status(500).JSON(map[string]string{"error": err.Error()})
+		}
+		defer rows.Close()
+		report := []map[string]interface{}{}
+		for rows.Next() {
+			var date string
+			var orderCount int64
+			var revenueCents int64
+			if err := rows.Scan(&date, &orderCount, &revenueCents); err != nil {
+				return c.Status(500).JSON(map[string]string{"error": err.Error()})
+			}
+			report = append(report, map[string]interface{}{
+				"date": date, "order_count": orderCount, "revenue_cents": revenueCents,
+			})
+		}
+		return c.JSON(map[string]interface{}{"report": report})
+	})
+
 	slog.Info("starting server", "addr", cfg.ListenAddr, "runtime", cfg.RuntimeName)
 
 	// Start server in goroutine

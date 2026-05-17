@@ -230,15 +230,95 @@ if ($path === '/checkout' && $method === 'POST') {
 // Route: GET /metrics
 if ($path === '/metrics' && $method === 'GET') {
     header('Content-Type: text/plain; version=0.0.4; charset=utf-8');
-    
-    // For now, return empty metrics (Prometheus format)
-    // Could be enhanced with actual metrics collection
-    echo "# HELP http_requests_total Total HTTP requests\n";
-    echo "# TYPE http_requests_total counter\n";
-    echo "http_requests_total{method=\"GET\",endpoint=\"/health\",status=\"200\"} 0\n";
-    echo "http_requests_total{method=\"POST\",endpoint=\"/checkout\",status=\"201\"} 0\n";
-    echo "# HELP http_request_duration_seconds HTTP request duration\n";
-    echo "# TYPE http_request_duration_seconds histogram\n";
+
+    $rusage = getrusage();
+    $cpu_seconds = ($rusage['ru_utime.tv_sec'] + $rusage['ru_utime.tv_usec'] / 1e6)
+                 + ($rusage['ru_stime.tv_sec'] + $rusage['ru_stime.tv_usec'] / 1e6);
+
+    $rss_bytes = 0;
+    if (file_exists('/proc/self/status')) {
+        $status = file_get_contents('/proc/self/status');
+        if (preg_match('/VmRSS:\s+(\d+)\s+kB/', $status, $m)) {
+            $rss_bytes = (int)$m[1] * 1024;
+        }
+    }
+    if ($rss_bytes === 0) {
+        $rss_bytes = memory_get_usage(true);
+    }
+
+    echo "# HELP process_cpu_seconds_total Total user and system CPU time spent in seconds.\n";
+    echo "# TYPE process_cpu_seconds_total gauge\n";
+    echo "process_cpu_seconds_total $cpu_seconds\n";
+    echo "# HELP process_resident_memory_bytes Resident memory size in bytes.\n";
+    echo "# TYPE process_resident_memory_bytes gauge\n";
+    echo "process_resident_memory_bytes $rss_bytes\n";
+    exit;
+}
+
+// Route: GET /products
+if ($path === '/products' && $method === 'GET') {
+    set_json_header();
+    $rows = $pdo->query('SELECT id, sku, name, price_cents, stock FROM products ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['products' => $rows]);
+    exit;
+}
+
+// Route: GET /products/{id}
+if (preg_match('#^/products/([0-9a-f-]+)$#i', $path, $m) && $method === 'GET') {
+    set_json_header();
+    $stmt = $pdo->prepare('SELECT id, sku, name, price_cents, stock FROM products WHERE id = ?');
+    $stmt->execute([$m[1]]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$row) {
+        http_response_code(404);
+        echo json_encode(['error' => 'not found']);
+    } else {
+        echo json_encode($row);
+    }
+    exit;
+}
+
+// Route: GET /orders/recent
+if ($path === '/orders/recent' && $method === 'GET') {
+    set_json_header();
+    $rows = $pdo->query(
+        'SELECT id, customer_id, total_cents, tax_cents, created_at FROM orders ORDER BY created_at DESC LIMIT 20'
+    )->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode(['orders' => $rows]);
+    exit;
+}
+
+// Route: GET /orders/{id}
+if (preg_match('#^/orders/([0-9a-f-]+)$#i', $path, $m) && $method === 'GET') {
+    set_json_header();
+    $stmt = $pdo->prepare('SELECT id, customer_id, total_cents, tax_cents, created_at FROM orders WHERE id = ?');
+    $stmt->execute([$m[1]]);
+    $order = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$order) {
+        http_response_code(404);
+        echo json_encode(['error' => 'not found']);
+        exit;
+    }
+    $stmt2 = $pdo->prepare('SELECT product_id, quantity, price_cents FROM order_items WHERE order_id = ?');
+    $stmt2->execute([$m[1]]);
+    $order['items'] = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($order);
+    exit;
+}
+
+// Route: GET /reports/revenue
+if ($path === '/reports/revenue' && $method === 'GET') {
+    set_json_header();
+    $rows = $pdo->query(
+        "SELECT DATE(created_at) as date, COUNT(*) as order_count, SUM(total_cents) as revenue_cents
+         FROM orders WHERE created_at >= NOW() - INTERVAL '30 days'
+         GROUP BY DATE(created_at) ORDER BY date DESC"
+    )->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($rows as &$r) {
+        $r['order_count'] = (int)$r['order_count'];
+        $r['revenue_cents'] = (int)$r['revenue_cents'];
+    }
+    echo json_encode(['report' => $rows]);
     exit;
 }
 

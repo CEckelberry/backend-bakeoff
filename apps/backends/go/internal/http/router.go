@@ -22,6 +22,11 @@ func NewRouter(s *store.PostgresStore, t *tax.Client, runtime string) *chi.Mux {
 	r.Get("/health", handlers.HandleHealth(s))
 	r.Post("/checkout", handlers.HandleCheckout(s, t))
 	r.Handle("/metrics", promhttp.Handler())
+	r.Get("/products", handlers.HandleProducts(s))
+	r.Get("/products/{id}", handlers.HandleProductByID(s))
+	r.Get("/orders/recent", handlers.HandleOrdersRecent(s))
+	r.Get("/orders/{id}", handlers.HandleOrderByID(s))
+	r.Get("/reports/revenue", handlers.HandleRevenueReport(s))
 
 	return r
 }

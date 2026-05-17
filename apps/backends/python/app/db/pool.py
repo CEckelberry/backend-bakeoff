@@ -8,8 +8,8 @@ async def init_pool(config: Config) -> asyncpg.Pool:
     global _pool
     _pool = await asyncpg.create_pool(
         config.database_url,
-        min_size=5,
-        max_size=20,
+        min_size=2,
+        max_size=15,
         max_queries=50000,
         max_cached_statement_lifetime=300,
         max_cacheable_statement_size=15000,

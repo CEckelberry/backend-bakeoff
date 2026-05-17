@@ -6,7 +6,7 @@ global:
 scrape_configs:
   - job_name: 'backends'
     static_configs:
-      - targets: ['bo-go:8080', 'bo-rust:8080', 'bo-bun:8080', 'bo-node:8080', 'bo-python:8080', 'bo-php:8080', 'tax-service:8080']
+      - targets: ['bo-go:8080', 'bo-rust:8080', 'bo-rails:8080', 'bo-node:8080', 'bo-python:8080', 'bo-php:8086', 'tax-service:8080', 'results-api:8080']
         labels:
           group: 'backend'
 
