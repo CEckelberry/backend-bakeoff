@@ -210,7 +210,7 @@ components:
           description: Service status
         runtime:
           type: string
-          description: The runtime name (e.g., "go", "rust", "bun", "node", "python", "php")
+          description: The runtime name (e.g., "go", "rust", "rails", "node", "python", "php")
 
     ErrorResponse:
       type: object

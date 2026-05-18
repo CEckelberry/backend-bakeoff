@@ -59,7 +59,7 @@ echo ""
 
 # Test: Database Schema consistency
 echo "🗄️ Checking database schema..."
-SCHEMAS=("bakeoff_go" "bakeoff_rust" "bakeoff_bun" "bakeoff_node" "bakeoff_python" "bakeoff_php")
+SCHEMAS=("bakeoff_go" "bakeoff_rust" "bakeoff_rails" "bakeoff_node" "bakeoff_python" "bakeoff_php")
 SCHEMA_COUNT=${#SCHEMAS[@]}
 grep -q "CREATE SCHEMA.*bakeoff_go" packages/seed-data/migrations/001_init.sql && \
 echo -e "  ${GREEN}✅${NC} All 6 schemas defined in migration" && \

@@ -12,19 +12,19 @@ A single, opinionated workload — `POST /checkout` — implemented six times:
 
 | Runtime | Framework | Language sweet spot |
 |---|---|---|
-| Go | `chi` + stdlib | Cloud-native middleware, simple deploys |
+| Go | `fiber` | High-throughput HTTP, minimal GC overhead |
 | Rust | `axum` + `tokio` | Lowest tail latency, highest throughput |
-| Bun | `hono` | New entrant, JS without Node's overhead |
-| Node | `express` | The realistic baseline most teams ship |
-| Python | `fastapi` | Async Python, what most data orgs use |
-| PHP | `laravel-octane` | The unfair fight that surprises people |
+| Rails | `rails 8` + `puma` | The full-stack framework baseline |
+| Node | `fastify` | The realistic baseline most teams ship |
+| Python | `fastapi` + `uvicorn` | Async Python, what most data orgs use |
+| PHP | plain PHP 8.3 | The unfair fight that surprises people |
 
 All six speak an identical OpenAPI contract. The contract is the source of truth — server stubs are generated from it, request/response types match exactly, and a contract conformance test runs in CI to prove every backend handles every edge case the same way.
 
 ## What this isn't
 
 - Not a microbenchmark. We're testing realistic web work, not synthetic loops.
-- Not a "Rust beats everything" project. Rust will win some metrics. Bun will win others. PHP will surprise you. The interesting part is *where each language wins and why*.
+- Not a "Rust beats everything" project. Rust will win some metrics. Rails will surprise you in others. PHP will surprise you too. The interesting part is *where each language wins and why*.
 - Not a static benchmark. Numbers from October don't mean anything in March. The site shows live numbers from a system you can interact with right now.
 - Not a TechEmpower clone. TechEmpower is a static results table with synthetic workloads. This is an interactive demo with a realistic workload that you can drive.
 
@@ -33,44 +33,37 @@ All six speak an identical OpenAPI contract. The contract is the source of truth
 ```
 bakeoff/
 ├── README.md
-├── ARCHITECTURE.md          ← system design, cluster, deployment topology
 ├── METHODOLOGY.md           ← fairness rules, what we measure and how (the credibility doc)
-├── DESIGN.md                ← UX, visuals, motion, copy
-├── TASKS.md                 ← phased build plan
-├── RUNTIMES.md              ← per-backend implementation specs
+├── Makefile                 ← local dev shortcuts (up, down, bench, seed)
+├── docker-compose.yml       ← full local stack including all 6 backends + results-api
 ├── api/
-│   └── openapi.yaml         ← single source of truth for the contract
+│   └── openapi.yaml         ← single source of truth for the HTTP contract
 ├── apps/
-│   ├── web/                 ← SvelteKit frontend
-│   ├── router/              ← Go service that routes traffic by header
-│   ├── loadgen/             ← Go service that generates load for stress mode
-│   └── backends/
-│       ├── go/              ← Go implementation of /checkout
-│       ├── rust/            ← Rust implementation
-│       ├── bun/             ← Bun implementation
-│       ├── node/            ← Node implementation
-│       ├── python/          ← Python implementation
-│       └── php/             ← PHP implementation
+│   ├── backends/
+│   │   ├── go/              ← Go / Fiber
+│   │   ├── rust/            ← Rust / Axum + Tokio
+│   │   ├── rails/           ← Rails 8 / Puma
+│   │   ├── node/            ← Node / Fastify
+│   │   ├── python/          ← Python / FastAPI + Uvicorn (4 workers)
+│   │   └── php/             ← Plain PHP 8.3 built-in server
+│   ├── results-api/         ← Standalone Go service: stores & serves benchmark runs
+│   └── tax-service/         ← Shared tax calculation service (intentional bottleneck)
 ├── packages/
-│   ├── contracts/           ← generated client/server types per language
-│   └── seed-data/           ← canonical product catalog, fixture orders
+│   └── seed-data/           ← DB migrations, product catalog, baseline benchmark results
 ├── infra/
-│   ├── terraform/           ← GKE cluster, Cloud SQL, networking, DNS
-│   ├── k8s/                 ← Kubernetes manifests (Helm or Kustomize)
-│   └── observability/       ← Prometheus, Grafana, OpenTelemetry config
-└── .github/workflows/
+│   └── observability/       ← Prometheus + Grafana config
+└── scripts/                 ← Benchmark runner, baseline results, audit tooling
 ```
 
 ## Stack at a glance
 
-- **Frontend**: SvelteKit, TypeScript, Tailwind v4, Chart.js for live metrics
-- **Router**: Go service, `chi` + `httputil.ReverseProxy`, runs on Cloud Run
-- **Backends**: as listed above, all on GKE
-- **Database**: Cloud SQL Postgres 18, single `db-custom-1-3840` instance, shared by all six backends with their own isolated schemas
-- **Observability**: Prometheus (in-cluster), Grafana (in-cluster, embedded into the site for dashboards), OpenTelemetry traces to Cloud Trace
-- **Hosting**: GKE Autopilot for backends + Prometheus (scales to zero after 15min idle), Cloud Run for frontend + router + loadgen
-- **Cost target**: ~$105/month at typical traffic, hard-capped at $150/month via billing automation
-- **CI/CD**: GitHub Actions, Workload Identity Federation, builds all 6 backend containers in parallel
+- **Backends**: Go/Fiber, Rust/Axum, Rails 8/Puma, Node/Fastify, Python/FastAPI, PHP 8.3 — all exposing the same OpenAPI contract
+- **Results API**: Standalone Go service (separate from the backends) — stores baseline and user-submitted benchmark runs in Postgres, exposes `GET /results` and `POST /results`
+- **Tax service**: Shared HTTP service intentionally shared by all backends — the common bottleneck under high concurrency
+- **Database**: Postgres, one instance, six isolated schemas (`bakeoff_go`, `bakeoff_rust`, etc.) plus `public.benchmark_runs` for results storage
+- **Observability**: Prometheus + Grafana; per-backend CPU and memory scraped via `/metrics` endpoints
+- **Local dev**: `docker-compose up` brings up all 6 backends, tax service, results-api, Postgres, Prometheus, and Grafana
+- **CI/CD**: GitHub Actions
 
 ## Three modes of interaction
 
@@ -84,7 +77,7 @@ bakeoff/
 
 It demonstrates:
 
-- **Six languages of comfort** — you don't need to be expert in all six, but writing six idiomatic implementations of the same contract proves you know where each language's seams are
+- **Six runtimes, one contract** — Go, Rust, Rails, Node, Python, and PHP all implement the same OpenAPI spec. Writing six idiomatic implementations proves you know where each language's seams are
 - **Kubernetes architecture beyond hello-world** — header-based routing, headless services, HPA tuning, fairness across pods, autoscaling pinned off so the test is meaningful
 - **Observability done right** — Prometheus metrics, OpenTelemetry traces, p50/p95/p99 reported correctly (not averaged), service-level dashboards
 - **Methodology rigor** — the project's credibility hinges on the fairness story. The METHODOLOGY doc is half the case study.

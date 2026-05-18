@@ -50,7 +50,7 @@ bakeoff_go/
 bakeoff_rust/
   (identical structure)
 
-bakeoff_bun/
+bakeoff_rails/
   (identical structure)
 
 bakeoff_node/
@@ -68,7 +68,7 @@ bakeoff_php/
 After seeding, verify that all schemas have 200 products:
 
 ```bash
-for schema in bakeoff_go bakeoff_rust bakeoff_bun bakeoff_node bakeoff_python bakeoff_php; do
+for schema in bakeoff_go bakeoff_rust bakeoff_rails bakeoff_node bakeoff_python bakeoff_php; do
   psql "$DATABASE_URL" -t -c "SELECT count(*) FROM $schema.products"
 done
 ```

@@ -11,7 +11,7 @@ if [ -z "$DATABASE_URL" ]; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SCHEMAS=("bakeoff_go" "bakeoff_rust" "bakeoff_bun" "bakeoff_node" "bakeoff_python" "bakeoff_php")
+SCHEMAS=("bakeoff_go" "bakeoff_rust" "bakeoff_rails" "bakeoff_node" "bakeoff_python" "bakeoff_php")
 
 echo "📋 Backend Bake-off Database Seeding"
 echo "════════════════════════════════════════"

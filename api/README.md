@@ -8,7 +8,7 @@ The source of truth for all backend implementations is the OpenAPI specification
 To ensure 100% compliance, it is recommended to generate types and server stubs using:
 - **Go**: `oapi-codegen`
 - **Rust**: `openapi-generator` or `utoipa`
-- **Node/Bun**: `openapi-typescript`
+- **Node**: `openapi-typescript`
 - **Python**: `openapi-python-client` or `openapi-spec-validator`
 - **PHP**: `openapi-generator` with PHP template
 
