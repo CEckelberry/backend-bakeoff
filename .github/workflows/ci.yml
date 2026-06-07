@@ -10,9 +10,9 @@ jobs:
   lint-openapi:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4.4.0
         with:
           node-version: '20'
       - name: Lint OpenAPI
@@ -24,7 +24,7 @@ jobs:
   validate-schema:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
       - name: Check Required Files
         run: |
           for file in api/openapi.yaml packages/seed-data/products.json docker-compose.yml Makefile; do
@@ -48,7 +48,7 @@ jobs:
   test-docker-compose:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.2.2
       - name: Validate Docker Compose Config
         run: |
           SERVICE_COUNT=$(docker compose config --services | wc -l)
