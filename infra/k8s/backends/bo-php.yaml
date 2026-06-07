@@ -18,6 +18,7 @@ spec:
       containers:
         - name: bo-php
           image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-php:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8086
           env:
@@ -70,6 +71,7 @@ spec:
             periodSeconds: 10
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2
+          imagePullPolicy: Always
           args:
             - "--structured-logs"
             - "--port=5432"

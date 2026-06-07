@@ -18,6 +18,7 @@ spec:
       containers:
         - name: bo-python
           image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-python:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
@@ -65,6 +66,7 @@ spec:
             periodSeconds: 10
         - name: cloud-sql-proxy
           image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2
+          imagePullPolicy: Always
           args:
             - "--structured-logs"
             - "--port=5432"

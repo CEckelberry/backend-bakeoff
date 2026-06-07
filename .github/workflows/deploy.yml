@@ -1,0 +1,83 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/**"
+      - ".github/workflows/deploy.yml"
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    env:
+      REGISTRY: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SA_EMAIL }}
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker us-west1-docker.pkg.dev --quiet
+
+      - name: Build and push images
+        run: |
+          SHORT_SHA=${GITHUB_SHA::8}
+
+          build_push() {
+            local name=$1
+            local context=$2
+            docker build \
+              -t "${REGISTRY}/${name}:${SHORT_SHA}" \
+              -t "${REGISTRY}/${name}:latest" \
+              "${context}"
+            docker push "${REGISTRY}/${name}:${SHORT_SHA}"
+            docker push "${REGISTRY}/${name}:latest"
+          }
+
+          build_push bakeoff-go          apps/backends/go
+          build_push bakeoff-rust        apps/backends/rust
+          build_push bakeoff-rails       apps/backends/rails
+          build_push bakeoff-node        apps/backends/node
+          build_push bakeoff-python      apps/backends/python
+          build_push bakeoff-php         apps/backends/php
+          build_push bakeoff-tax-service apps/tax-service
+          build_push bakeoff-results-api apps/results-api
+
+      - name: Update image tags in manifests
+        run: |
+          SHORT_SHA=${GITHUB_SHA::8}
+
+          update_tag() {
+            local name=$1
+            local file=$2
+            sed -i "s|${REGISTRY}/${name}:.*|${REGISTRY}/${name}:${SHORT_SHA}|g" "${file}"
+          }
+
+          update_tag bakeoff-go          infra/k8s/backends/bo-go.yaml
+          update_tag bakeoff-rust        infra/k8s/backends/bo-rust.yaml
+          update_tag bakeoff-rails       infra/k8s/backends/bo-rails.yaml
+          update_tag bakeoff-node        infra/k8s/backends/bo-node.yaml
+          update_tag bakeoff-python      infra/k8s/backends/bo-python.yaml
+          update_tag bakeoff-php         infra/k8s/backends/bo-php.yaml
+          update_tag bakeoff-tax-service infra/k8s/tax-service/tax-service.yaml
+          update_tag bakeoff-results-api infra/k8s/results-api/results-api.yaml
+
+      - name: Commit manifest updates
+        run: |
+          SHORT_SHA=${GITHUB_SHA::8}
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add infra/k8s/
+          git diff --cached --quiet && echo "No manifest changes" && exit 0
+          git commit -m "ci: update image tags to ${SHORT_SHA} [skip ci]"
+          git push
