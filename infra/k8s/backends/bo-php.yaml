@@ -58,11 +58,11 @@ spec:
                   key: TAX_SERVICE_URL
           resources:
             requests:
-              cpu: "100m"
-              memory: "128Mi"
+              cpu: "50m"
+              memory: "64Mi"
             limits:
               cpu: "500m"
-              memory: "256Mi"
+              memory: "128Mi"
           readinessProbe:
             httpGet:
               path: /health
@@ -80,11 +80,11 @@ spec:
             runAsNonRoot: true
           resources:
             requests:
+              cpu: "25m"
+              memory: "32Mi"
+            limits:
               cpu: "50m"
               memory: "64Mi"
-            limits:
-              cpu: "100m"
-              memory: "128Mi"
 ---
 apiVersion: v1
 kind: Service
