@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: results-api
+  namespace: bakeoff
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: results-api
+  template:
+    metadata:
+      labels:
+        app: results-api
+    spec:
+      serviceAccountName: bakeoff-workload
+      containers:
+        - name: results-api
+          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-results-api:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bakeoff-db
+                  key: password
+            - name: DATABASE_URL
+              value: "postgresql://bakeoff:$(DB_PASSWORD)@127.0.0.1:5432/bakeoff"
+            - name: PORT
+              value: "8080"
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2
+          args:
+            - "--structured-logs"
+            - "--port=5432"
+            - "exalted-kit-496514-s1:us-west1:portfolio-db"
+          securityContext:
+            runAsNonRoot: true
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: results-api
+  namespace: bakeoff
+spec:
+  selector:
+    app: results-api
+  ports:
+    - port: 8080
+      targetPort: 8080

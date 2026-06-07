@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bo-php
+  namespace: bakeoff
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bo-php
+  template:
+    metadata:
+      labels:
+        app: bo-php
+        runtime: php
+    spec:
+      serviceAccountName: bakeoff-workload
+      containers:
+        - name: bo-php
+          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-php:latest
+          ports:
+            - containerPort: 8086
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bakeoff-db
+                  key: password
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: bakeoff-config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: bakeoff-config
+                  key: DB_PORT
+            - name: DB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: bakeoff-config
+                  key: DB_DATABASE
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: bakeoff-config
+                  key: DB_USERNAME
+            - name: DB_SCHEMA
+              value: "bakeoff_php"
+            - name: RUNTIME_NAME
+              value: "php"
+            - name: TAX_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: bakeoff-config
+                  key: TAX_SERVICE_URL
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8086
+            initialDelaySeconds: 5
+            periodSeconds: 10
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2
+          args:
+            - "--structured-logs"
+            - "--port=5432"
+            - "exalted-kit-496514-s1:us-west1:portfolio-db"
+          securityContext:
+            runAsNonRoot: true
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bo-php
+  namespace: bakeoff
+spec:
+  selector:
+    app: bo-php
+  ports:
+    - port: 8086
+      targetPort: 8086

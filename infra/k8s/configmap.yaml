@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bakeoff-config
+  namespace: bakeoff
+data:
+  TAX_SERVICE_URL: "http://tax-service:8080"
+  LOG_LEVEL: "info"
+  LISTEN_ADDR: "0.0.0.0"
+  LISTEN_PORT: "8080"
+  RAILS_ENV: "production"
+  RAILS_LOG_TO_STDOUT: "true"
+  RAILS_MAX_THREADS: "5"
+  WEB_CONCURRENCY: "2"
+  SECRET_KEY_BASE: "bakeoff_benchmark_not_a_real_secret_just_needs_to_be_set"
+  DB_HOST: "127.0.0.1"
+  DB_PORT: "5432"
+  DB_DATABASE: "bakeoff"
+  DB_USERNAME: "bakeoff"
