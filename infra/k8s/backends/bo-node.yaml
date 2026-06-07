@@ -17,7 +17,7 @@ spec:
       serviceAccountName: bakeoff-workload
       containers:
         - name: bo-node
-          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-node:latest
+          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-node:aa5c8d09
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

@@ -17,7 +17,7 @@ spec:
       serviceAccountName: bakeoff-workload
       containers:
         - name: bo-rails
-          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-rails:latest
+          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-rails:aa5c8d09
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
