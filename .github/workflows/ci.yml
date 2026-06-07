@@ -33,7 +33,7 @@ jobs:
           echo "✅ All required files present"
       - name: Check OpenAPI Endpoints
         run: |
-          ENDPOINTS=$(grep -E '^  /' api/openapi.yaml | awk '{print $1}' | tr -d '/')
+          ENDPOINTS=$(grep -E '^  /' api/openapi.yaml | awk '{print $1}' | tr -d '/:')
           for ep in $ENDPOINTS; do
             if [[ "$ep" != "checkout" && "$ep" != "health" ]]; then
               echo "❌ Forbidden endpoint found in OpenAPI: /$ep"
@@ -49,11 +49,11 @@ jobs:
       - name: Validate Docker Compose Config
         run: |
           SERVICE_COUNT=$(docker compose config --services | wc -l)
-          if [ "$SERVICE_COUNT" -ne 9 ]; then
-            echo "❌ Expected 9 services in docker-compose, found $SERVICE_COUNT"
+          if [ "$SERVICE_COUNT" -ne 13 ]; then
+            echo "❌ Expected 13 services in docker-compose, found $SERVICE_COUNT"
             exit 1
           fi
-          echo "✅ Docker compose has exactly 9 services"
+          echo "✅ Docker compose has exactly 13 services"
       - name: Check for TODOs
         run: |
           if grep -rE "TODO|FIXME" packages/ api/ --include="*.json" --include="*.yaml" --include="*.yml" 2>/dev/null; then
