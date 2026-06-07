@@ -29,8 +29,7 @@ composer.lock
 .phpunit.result.cache
 
 # Go
-go.sum
-# (Keep go.mod, but ignore binaries)
+# (Keep go.mod and go.sum — required for reproducible builds)
 
 # Bun
 .bun
