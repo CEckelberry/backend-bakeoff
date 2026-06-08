@@ -25,6 +25,7 @@
   let errorSeries: ChartSeries[] = [];
   let lastFetched: Date | null = null;
   let interval: ReturnType<typeof setInterval>;
+  let isLoading = false;
 
   async function getRuntimeErrorRateHistory(
     runtime: string,
@@ -44,38 +45,45 @@
       totalPts = await queryPrometheusRange(totalQ, minutesBack);
     }
 
-    return totalPts.map((t, i) => ({
+    const errorMap = new Map(errorPts.map((p) => [p.timestamp, p.value]));
+    return totalPts.map((t) => ({
       timestamp: t.timestamp,
-      value: t.value > 0 ? ((errorPts[i]?.value ?? 0) / t.value) * 100 : 0,
+      value: t.value > 0 ? ((errorMap.get(t.timestamp) ?? 0) / t.value) * 100 : 0,
     }));
   }
 
   async function loadAll() {
-    const [latencyResults, throughputResults, errorResults] = await Promise.all([
-      Promise.all(
-        RUNTIMES.map(async (r) => ({
-          ...r,
-          points: await getRuntimeLatencyHistory(r.id, WINDOW_MINUTES),
-        }))
-      ),
-      Promise.all(
-        RUNTIMES.map(async (r) => ({
-          ...r,
-          points: await getRuntimeThroughputHistory(r.id, WINDOW_MINUTES),
-        }))
-      ),
-      Promise.all(
-        RUNTIMES.map(async (r) => ({
-          ...r,
-          points: await getRuntimeErrorRateHistory(r.id, WINDOW_MINUTES),
-        }))
-      ),
-    ]);
+    if (isLoading) return;
+    isLoading = true;
+    try {
+      const [latencyResults, throughputResults, errorResults] = await Promise.all([
+        Promise.all(
+          RUNTIMES.map(async (r) => ({
+            ...r,
+            points: await getRuntimeLatencyHistory(r.id, WINDOW_MINUTES),
+          }))
+        ),
+        Promise.all(
+          RUNTIMES.map(async (r) => ({
+            ...r,
+            points: await getRuntimeThroughputHistory(r.id, WINDOW_MINUTES),
+          }))
+        ),
+        Promise.all(
+          RUNTIMES.map(async (r) => ({
+            ...r,
+            points: await getRuntimeErrorRateHistory(r.id, WINDOW_MINUTES),
+          }))
+        ),
+      ]);
 
-    latencySeries = latencyResults;
-    throughputSeries = throughputResults;
-    errorSeries = errorResults;
-    lastFetched = new Date();
+      latencySeries = latencyResults;
+      throughputSeries = throughputResults;
+      errorSeries = errorResults;
+      lastFetched = new Date();
+    } finally {
+      isLoading = false;
+    }
   }
 
   onMount(() => {
