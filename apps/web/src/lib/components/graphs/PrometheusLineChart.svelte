@@ -17,10 +17,10 @@
   $: allValues = series.flatMap((s) => s.points.map((p) => p.value)).filter(isFinite);
   $: allTimestamps = series.flatMap((s) => s.points.map((p) => p.timestamp));
 
-  $: minT = allTimestamps.length ? Math.min(...allTimestamps) : 0;
-  $: maxT = allTimestamps.length ? Math.max(...allTimestamps) : 1;
+  $: minT = allTimestamps.length ? allTimestamps.reduce((a, b) => Math.min(a, b)) : 0;
+  $: maxT = allTimestamps.length ? allTimestamps.reduce((a, b) => Math.max(a, b)) : 1;
   $: minV = 0;
-  $: maxV = allValues.length ? Math.max(...allValues) * 1.1 : 1;
+  $: maxV = allValues.length ? allValues.reduce((a, b) => Math.max(a, b)) * 1.1 : 1;
 
   function xScale(t: number): number {
     if (maxT === minT) return PAD.left;
