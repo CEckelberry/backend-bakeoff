@@ -1,6 +1,7 @@
 export interface Runtime {
 	id: string;
 	name: string;
+	framework: string;
 	version: string;
 }
 

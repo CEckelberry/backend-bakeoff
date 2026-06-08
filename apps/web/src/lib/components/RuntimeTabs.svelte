@@ -23,7 +23,7 @@
 				style="border: 1px solid {selected === runtime.id ? getRuntimeColor(runtime.id) : 'transparent'}"
 			>
 				<div class="w-2 h-2 rounded-full" style="background-color: {getRuntimeColor(runtime.id)}"></div>
-				{runtime.name}
+				{runtime.name} <span class="text-slate-400 font-normal opacity-75">({runtime.framework})</span>
 			</button>
 		{/each}
 	</div>

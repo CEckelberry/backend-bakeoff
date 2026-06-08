@@ -5,6 +5,7 @@ export type HealthStatus = 'healthy' | 'warning' | 'critical';
 export interface Runtime {
 	id: string;
 	name: string;
+	framework: string;
 	version: string;
 }
 
@@ -20,12 +21,12 @@ export interface DashboardState {
 }
 
 export const runtimes: Runtime[] = [
-	{ id: 'go', name: 'Go', version: '1.21' },
-	{ id: 'rust', name: 'Rust', version: '1.74' },
-	{ id: 'bun', name: 'Bun', version: '1.0' },
-	{ id: 'node', name: 'Node.js', version: '20' },
-	{ id: 'python', name: 'Python', version: '3.12' },
-	{ id: 'php', name: 'PHP', version: '8.3' }
+	{ id: 'go', name: 'Go', framework: 'Fiber v2', version: '1.21' },
+	{ id: 'rust', name: 'Rust', framework: 'Axum', version: '1.74' },
+	{ id: 'bun', name: 'Bun', framework: 'Hono', version: '1.0' },
+	{ id: 'node', name: 'Node.js', framework: 'Fastify', version: '20' },
+	{ id: 'python', name: 'Python', framework: 'FastAPI', version: '3.12' },
+	{ id: 'php', name: 'PHP', framework: 'PHP 8.3', version: '8.3' }
 ];
 
 export const dashboard = writable<DashboardState>({

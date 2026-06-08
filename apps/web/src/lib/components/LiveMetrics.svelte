@@ -113,7 +113,7 @@
           <div class="flex items-center justify-between pb-3 border-b border-slate-700">
             <div class="flex items-center gap-2">
               <div class="w-3 h-3 rounded-full" style="background-color: {runtimeData?.color};" />
-              <h3 class="font-bold text-white">{runtimeData?.name}</h3>
+              <h3 class="font-bold text-white">{runtimeData?.name} <span class="text-slate-400 font-normal text-sm">({runtimeData?.framework})</span></h3>
             </div>
             {#if metric?.loading}
               <svg class="w-4 h-4 animate-spin text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

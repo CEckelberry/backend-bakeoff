@@ -26,7 +26,7 @@
         <!-- Label -->
         <div class="flex items-center gap-2">
           <div class="w-3 h-3 rounded-full" style="background-color: {runtime.color};" />
-          <span class="font-medium text-sm text-white">{runtime.name}</span>
+          <span class="font-medium text-sm text-white">{runtime.name} <span class="text-slate-400 font-normal">({runtime.framework})</span></span>
         </div>
 
         <!-- Resource Bars -->

@@ -28,7 +28,7 @@
 		<h2 class="text-xl font-bold">p95 Latency Distribution</h2>
 		<div class="flex items-center gap-2">
 			<div class="w-3 h-3 rounded-full" style="background-color: {getRuntimeColor(selected)}"></div>
-			<span class="text-sm text-slate-400">{runtime?.name}</span>
+			<span class="text-sm text-slate-400">{runtime?.name} ({runtime?.framework})</span>
 		</div>
 	</div>
 	
