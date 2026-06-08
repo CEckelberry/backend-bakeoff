@@ -75,11 +75,10 @@ function createDashboardStore() {
         currentTestRuntime: runtimes[0] || null,
       }));
 
+      const gathered: Record<string, TestResult> = {};
+
       for (const runtime of runtimes) {
-        update((state) => ({
-          ...state,
-          currentTestRuntime: runtime,
-        }));
+        update((state) => ({ ...state, currentTestRuntime: runtime }));
 
         try {
           await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -90,7 +89,7 @@ function createDashboardStore() {
             p95: baseline.p95 + Math.random() * 10 - 5,
             p50: baseline.p95 * 0.6 + Math.random() * 5,
             successRate: baseline.successRate + (Math.random() * 0.2 - 0.1),
-            throughput: Math.floor(1000 + Math.random() * 500),
+            throughput: Math.floor(baseline.throughput + Math.random() * 200 - 100),
             breakdown: {
               db: baseline.p95 * 0.5,
               logic: baseline.p95 * 0.3,
@@ -99,16 +98,35 @@ function createDashboardStore() {
             timestamp: new Date().toISOString(),
           };
 
+          gathered[runtime] = mockResult;
+
           update((state) => ({
             ...state,
-            testResults: {
-              ...state.testResults,
-              [runtime]: mockResult,
-            },
+            testResults: { ...state.testResults, [runtime]: mockResult },
           }));
         } catch (error) {
           console.error(`Test for ${runtime} failed:`, error);
         }
+      }
+
+      // POST to results-api
+      try {
+        const apiResults: Record<string, { p50: number; p95: number; successRate: number; throughput: number }> = {};
+        for (const [runtime, r] of Object.entries(gathered)) {
+          apiResults[runtime] = {
+            p50: r.p50,
+            p95: r.p95,
+            successRate: r.successRate,
+            throughput: r.throughput,
+          };
+        }
+        await fetch('/api/results', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ label: 'web-ui run', results: apiResults }),
+        });
+      } catch (err) {
+        console.error('Failed to save results to API:', err);
       }
 
       update((state) => ({
