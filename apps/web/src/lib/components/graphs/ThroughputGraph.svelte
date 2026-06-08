@@ -2,11 +2,7 @@
   import { baselineData } from '$lib/stores/dashboardStore';
 
   const runtimes = Object.entries(baselineData)
-    .map(([id, data]) => ({ 
-      id, 
-      ...data,
-      throughput: Math.floor(800 + Math.random() * 800) // Mock throughput
-    }))
+    .map(([id, data]) => ({ id, ...data }))
     .sort((a, b) => b.throughput - a.throughput);
 
   const maxThroughput = Math.max(...runtimes.map(r => r.throughput));
