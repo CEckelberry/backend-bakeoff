@@ -6,6 +6,8 @@ pnpm-lock.yaml
 # Build outputs
 dist/
 build/
+.svelte-kit/
+apps/web/.svelte-kit/
 bin/
 *.exe
 *.out
