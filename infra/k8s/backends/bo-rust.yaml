@@ -39,7 +39,7 @@ spec:
           command: ['sh', '-c', 'until nc -z 127.0.0.1 5432; do sleep 1; done']
       containers:
         - name: bo-rust
-          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-rust:45740317
+          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-rust:c894d0fd
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
