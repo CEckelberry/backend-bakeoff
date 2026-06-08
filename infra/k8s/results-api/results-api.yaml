@@ -4,6 +4,8 @@ metadata:
   name: results-api
   namespace: bakeoff
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:
