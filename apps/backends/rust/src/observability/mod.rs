@@ -1,5 +1,5 @@
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-use prometheus::{Registry, Opts, CounterVec, HistogramVec};
+use prometheus::{Opts, CounterVec, HistogramVec};
 use std::sync::Arc;
 
 pub struct Metrics {
@@ -35,6 +35,5 @@ pub fn init_tracing(config: &crate::config::Config) {
 }
 
 pub fn init_metrics() -> Arc<Metrics> {
-    let registry = Registry::new();
-    Arc::new(Metrics::new(&registry))
+    Arc::new(Metrics::new(prometheus::default_registry()))
 }

@@ -2,6 +2,19 @@ require 'prometheus/client'
 
 PROMETHEUS_REGISTRY = Prometheus::Client.registry
 
+HTTP_REQUESTS_TOTAL = PROMETHEUS_REGISTRY.counter(
+  :http_requests_total,
+  docstring: 'Total HTTP requests',
+  labels: [:method, :endpoint, :status]
+)
+
+HTTP_REQUEST_DURATION_SECONDS = PROMETHEUS_REGISTRY.histogram(
+  :http_request_duration_seconds,
+  docstring: 'HTTP request duration in seconds',
+  labels: [:method, :endpoint],
+  buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5]
+)
+
 CHECKOUT_REQUESTS = PROMETHEUS_REGISTRY.counter(
   :checkout_requests_total,
   docstring: 'Total checkout requests',

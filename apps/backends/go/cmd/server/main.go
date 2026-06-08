@@ -11,10 +11,10 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/adaptor"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/common/expfmt"
 
 	"backend-bakeoff-go/internal/config"
 	"backend-bakeoff-go/internal/observability"
@@ -180,7 +180,20 @@ func main() {
 	})
 
 	// Prometheus metrics endpoint
-	app.Get("/metrics", adaptor.HTTPHandler(promhttp.Handler()))
+	app.Get("/metrics", func(c *fiber.Ctx) error {
+		mfs, err := prometheus.DefaultGatherer.Gather()
+		if err != nil {
+			return c.Status(500).SendString(err.Error())
+		}
+		c.Set("Content-Type", "text/plain; version=0.0.4; charset=utf-8")
+		enc := expfmt.NewEncoder(c.Response().BodyWriter(), expfmt.FmtText)
+		for _, mf := range mfs {
+			if err := enc.Encode(mf); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
 
 	app.Get("/products", func(c *fiber.Ctx) error {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
