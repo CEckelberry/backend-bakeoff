@@ -22,13 +22,7 @@
       <GraphSwitcher />
       <button
         on:click={toggleLastRun}
-        class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all duration-200"
-        class:border-emerald-500={$showLastRun}
-        class:text-emerald-400={$showLastRun}
-        class:bg-emerald-500/10={$showLastRun}
-        class:border-slate-700={!$showLastRun}
-        class:text-slate-400={!$showLastRun}
-        class:hover:border-slate-500={!$showLastRun}
+        class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all duration-200 {$showLastRun ? 'border-emerald-500 text-emerald-400 bg-emerald-500/10' : 'border-slate-700 text-slate-400 hover:border-slate-500'}"
         disabled={$lastRunStore.loading || !$lastRunStore.data}
       >
         {#if $lastRunStore.loading}
