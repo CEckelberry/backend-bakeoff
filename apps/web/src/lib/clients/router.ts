@@ -17,8 +17,8 @@ function generateMockPrometheus(): string {
     node_memory_bytes{job="node"} ${r()}
     rust_cpu_seconds_total{job="rust"} ${r()}
     rust_memory_bytes{job="rust"} ${r()}
-    bun_cpu_seconds_total{job="bun"} ${r()}
-    bun_memory_bytes{job="bun"} ${r()}
+    rails_cpu_seconds_total{job="rails"} ${r()}
+    rails_memory_bytes{job="rails"} ${r()}
     python_cpu_seconds_total{job="python"} ${r()}
     python_memory_bytes{job="python"} ${r()}
     php_cpu_seconds_total{job="php"} ${r()}

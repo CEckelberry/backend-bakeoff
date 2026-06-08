@@ -24,14 +24,14 @@ export interface DashboardState {
   showMethodology: boolean;
 }
 
-// Baseline data for all runtimes
+// Baseline data — sourced from seed SQL (2026-05-17 baseline run, checkout_single p95)
 export const baselineData: Record<string, { name: string; framework: string; p95: number; successRate: number; color: string }> = {
-  rust: { name: 'Rust', framework: 'Axum', p95: 18, successRate: 99.95, color: '#FAC775' },
-  go: { name: 'Go', framework: 'Fiber v2', p95: 42, successRate: 99.7, color: '#5DCAA5' },
-  bun: { name: 'Bun', framework: 'Hono', p95: 56, successRate: 98.5, color: '#F4C0D1' },
-  node: { name: 'Node', framework: 'Fastify', p95: 65, successRate: 97.8, color: '#AFA9EC' },
-  python: { name: 'Python', framework: 'FastAPI', p95: 72, successRate: 98.2, color: '#ED93B1' },
-  php: { name: 'PHP', framework: 'Laravel', p95: 85, successRate: 97.5, color: '#7F77DD' },
+  rust:   { name: 'Rust',   framework: 'Axum',    p95: 16.01, successRate: 100.0,  color: '#FAC775' },
+  go:     { name: 'Go',     framework: 'Fiber v2', p95: 12.45, successRate: 99.99, color: '#5DCAA5' },
+  rails:  { name: 'Rails',  framework: 'Puma',    p95: 20.12, successRate: 100.0,  color: '#EF4444' },
+  node:   { name: 'Node',   framework: 'Fastify', p95: 17.16, successRate: 100.0,  color: '#AFA9EC' },
+  python: { name: 'Python', framework: 'FastAPI', p95: 31.52, successRate: 99.99,  color: '#ED93B1' },
+  php:    { name: 'PHP',    framework: 'PHP 8.3', p95: 144.86, successRate: 100.0, color: '#7F77DD' },
 };
 
 function createDashboardStore() {

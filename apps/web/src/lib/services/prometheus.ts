@@ -1,5 +1,5 @@
-// Prometheus API client
-const PROMETHEUS_URL = 'http://localhost:9092';
+// Prometheus API client — proxied through SvelteKit server route
+const PROMETHEUS_URL = '/api/prometheus';
 
 export interface PrometheusMetric {
   timestamp: number;
@@ -11,7 +11,7 @@ export interface PrometheusMetric {
  */
 export async function queryPrometheus(query: string): Promise<PrometheusMetric[]> {
   try {
-    const response = await fetch(`${PROMETHEUS_URL}/api/v1/query?query=${encodeURIComponent(query)}`);
+    const response = await fetch(`${PROMETHEUS_URL}/query?query=${encodeURIComponent(query)}`);
     if (!response.ok) throw new Error(`Prometheus error: ${response.statusCode}`);
     
     const data = await response.json();
@@ -169,7 +169,7 @@ export async function queryPrometheusRange(
     const step = Math.max(15, Math.floor((end - start) / 50)); // ~50 data points
 
     const response = await fetch(
-      `${PROMETHEUS_URL}/api/v1/query_range?query=${encodeURIComponent(query)}&start=${start}&end=${end}&step=${step}`
+      `${PROMETHEUS_URL}/query_range?query=${encodeURIComponent(query)}&start=${start}&end=${end}&step=${step}`
     );
     if (!response.ok) throw new Error(`Prometheus error: ${response.statusCode}`);
     

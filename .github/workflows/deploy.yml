@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "apps/**"
+      - "infra/k8s/**"
       - ".github/workflows/deploy.yml"
 
 permissions:
@@ -52,6 +53,7 @@ jobs:
           build_push bakeoff-php         apps/backends/php
           build_push bakeoff-tax-service apps/tax-service
           build_push bakeoff-results-api apps/results-api
+          build_push bakeoff-web         apps/web
 
       - name: Update image tags in manifests
         run: |
@@ -71,6 +73,7 @@ jobs:
           update_tag bakeoff-php         infra/k8s/backends/bo-php.yaml
           update_tag bakeoff-tax-service infra/k8s/tax-service/tax-service.yaml
           update_tag bakeoff-results-api infra/k8s/results-api/results-api.yaml
+          update_tag bakeoff-web         infra/k8s/web/web.yaml
 
       - name: Commit manifest updates
         run: |

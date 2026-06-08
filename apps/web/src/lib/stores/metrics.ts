@@ -13,7 +13,7 @@ export const metrics = writable<RuntimeMetrics>({
   node: { cpu: [], memory: [], latency: [], orders: [] },
   go: { cpu: [], memory: [], latency: [], orders: [] },
   rust: { cpu: [], memory: [], latency: [], orders: [] },
-  bun: { cpu: [], memory: [], latency: [], orders: [] },
+  rails: { cpu: [], memory: [], latency: [], orders: [] },
   python: { cpu: [], memory: [], latency: [], orders: [] },
   php: { cpu: [], memory: [], latency: [], orders: [] }
 });
