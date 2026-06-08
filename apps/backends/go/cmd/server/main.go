@@ -10,11 +10,13 @@ import (
 	"syscall"
 	"time"
 
+	"net/http"
+	"net/http/httptest"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/common/expfmt"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 
 	"backend-bakeoff-go/internal/config"
 	"backend-bakeoff-go/internal/observability"
@@ -181,18 +183,12 @@ func main() {
 
 	// Prometheus metrics endpoint
 	app.Get("/metrics", func(c *fiber.Ctx) error {
-		mfs, err := prometheus.DefaultGatherer.Gather()
-		if err != nil {
-			return c.Status(500).SendString(err.Error())
-		}
-		c.Set("Content-Type", "text/plain; version=0.0.4; charset=utf-8")
-		enc := expfmt.NewEncoder(c.Response().BodyWriter(), expfmt.FmtText)
-		for _, mf := range mfs {
-			if err := enc.Encode(mf); err != nil {
-				return err
-			}
-		}
-		return nil
+		w := httptest.NewRecorder()
+		r, _ := http.NewRequest("GET", "/metrics", nil)
+		promhttp.Handler().ServeHTTP(w, r)
+		result := w.Result()
+		c.Set("Content-Type", result.Header.Get("Content-Type"))
+		return c.Status(result.StatusCode).Send(w.Body.Bytes())
 	})
 
 	app.Get("/products", func(c *fiber.Ctx) error {
