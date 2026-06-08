@@ -1,23 +1,16 @@
 <script lang="ts">
   import { baselineData } from '$lib/stores/dashboardStore';
-  import { liveMetricsStore } from '$lib/stores/liveMetricsStore';
 
-  $: live = $liveMetricsStore.data;
-
-  $: runtimes = Object.entries(baselineData)
-    .map(([id, data]) => {
-      const successRate = live?.[id]?.successRate ?? data.successRate;
-      return {
-        id,
-        ...data,
-        uptime: successRate,
-        errorRate: 100 - successRate,
-        isLive: live?.[id]?.isLive ?? false,
-      };
-    })
+  const runtimes = Object.entries(baselineData)
+    .map(([id, data]) => ({
+      id,
+      ...data,
+      errorRate: 100 - data.successRate,
+      uptime: data.successRate,
+    }))
     .sort((a, b) => a.errorRate - b.errorRate);
 
-  $: maxErrorRate = Math.max(...runtimes.map((r) => r.errorRate), 0.001);
+  const maxErrorRate = Math.max(...runtimes.map((r) => r.errorRate), 0.001);
 </script>
 
 <div class="space-y-8">

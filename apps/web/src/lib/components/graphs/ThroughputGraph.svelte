@@ -1,17 +1,9 @@
 <script lang="ts">
   import { baselineData } from '$lib/stores/dashboardStore';
   import { lastRunStore, showLastRun } from '$lib/stores/lastRunStore';
-  import { liveMetricsStore } from '$lib/stores/liveMetricsStore';
 
-  $: live = $liveMetricsStore.data;
-
-  $: runtimes = Object.entries(baselineData)
-    .map(([id, data]) => ({
-      id,
-      ...data,
-      throughput: live?.[id]?.throughput ?? data.throughput,
-      isLive: live?.[id]?.isLive ?? false,
-    }))
+  const runtimes = Object.entries(baselineData)
+    .map(([id, data]) => ({ id, ...data }))
     .sort((a, b) => b.throughput - a.throughput);
 
   $: lastRun = $lastRunStore.data;

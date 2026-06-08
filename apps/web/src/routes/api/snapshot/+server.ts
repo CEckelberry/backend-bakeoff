@@ -40,43 +40,16 @@ async function fetchRuntimeSnapshot(runtime: string, port: number): Promise<Runt
   const inst = `bo-${runtime}:${port}`;
   const base = BASELINE[runtime];
 
-  // Latency p95 — try HTTP histogram first, then checkout histogram
-  let p95Raw = await promQuery(
-    `histogram_quantile(0.95,sum by(le)(rate(http_request_duration_seconds_bucket{instance="${inst}"}[5m])))`
-  );
-  if (p95Raw === null) {
-    p95Raw = await promQuery(
-      `histogram_quantile(0.95,sum by(le)(rate(checkout_duration_seconds_bucket{instance="${inst}"}[5m])))`
-    );
-  }
-  const p95 = p95Raw !== null ? p95Raw * 1000 : base.p95;
-  const isLive = p95Raw !== null;
-
-  // Throughput — try http_requests_total first, then checkout_requests_total
-  let tpRaw = await promQuery(`sum(rate(http_requests_total{instance="${inst}"}[5m]))`);
-  if (tpRaw === null) {
-    tpRaw = await promQuery(`sum(rate(checkout_requests_total{instance="${inst}"}[5m]))`);
-  }
-  const throughput = tpRaw !== null ? Math.round(tpRaw) : base.throughput;
-
-  // Success rate
-  const errRaw = await promQuery(
-    `sum(rate(http_requests_total{instance="${inst}",status=~"5.."}[5m])) / sum(rate(http_requests_total{instance="${inst}"}[5m]))`
-  );
-  const successRate = errRaw !== null ? (1 - errRaw) * 100 : base.successRate;
-
-  // Memory MB
+  // Only query memory — rate()-based metrics (latency, throughput, error rate) return
+  // near-zero on an idle cluster and are only meaningful during active load tests.
+  // Those values always come from the baseline benchmark run.
   const memRaw = await promQuery(`process_resident_memory_bytes{instance="${inst}"} / 1048576`);
   const memoryMB = memRaw !== null ? Math.round(memRaw) : null;
 
   return {
-    p95,
-    p50: p95 * 0.6,
-    p99: p95 * 1.5,
-    throughput,
-    successRate: Math.min(100, Math.max(0, successRate)),
+    ...base,
     memoryMB,
-    isLive,
+    isLive: memoryMB !== null,
   };
 }
 
