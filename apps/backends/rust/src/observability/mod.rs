@@ -1,5 +1,5 @@
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-use prometheus::{Opts, CounterVec, HistogramVec};
+use prometheus::{Registry, Opts, CounterVec, HistogramVec};
 use std::sync::Arc;
 
 pub struct Metrics {
