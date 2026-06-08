@@ -76,22 +76,6 @@ spec:
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
-        - name: cloud-sql-proxy
-          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2
-          imagePullPolicy: Always
-          args:
-            - "--structured-logs"
-            - "--port=5432"
-            - "exalted-kit-496514-s1:us-west1:portfolio-db"
-          securityContext:
-            runAsNonRoot: true
-          resources:
-            requests:
-              cpu: "25m"
-              memory: "32Mi"
-            limits:
-              cpu: "50m"
-              memory: "64Mi"
 ---
 apiVersion: v1
 kind: Service
