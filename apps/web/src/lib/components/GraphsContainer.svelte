@@ -2,13 +2,17 @@
   import { onMount } from 'svelte';
   import { activeGraph } from '$lib/stores/dashboardStore';
   import { lastRunStore, showLastRun } from '$lib/stores/lastRunStore';
+  import { liveMetricsStore } from '$lib/stores/liveMetricsStore';
   import GraphSwitcher from '$lib/components/GraphSwitcher.svelte';
   import ThroughputGraph from '$lib/components/graphs/ThroughputGraph.svelte';
   import LatencyGraph from '$lib/components/graphs/LatencyGraph.svelte';
   import ResourceEfficiencyGraph from '$lib/components/graphs/ResourceEfficiencyGraph.svelte';
   import ReliabilityGraph from '$lib/components/graphs/ReliabilityGraph.svelte';
 
-  onMount(() => lastRunStore.fetch());
+  onMount(() => {
+    lastRunStore.fetch();
+    liveMetricsStore.fetch();
+  });
 
   function toggleLastRun() {
     showLastRun.update((v) => !v);

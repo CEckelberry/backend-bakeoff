@@ -1,15 +1,30 @@
 <script lang="ts">
   import { baselineData } from '$lib/stores/dashboardStore';
+  import { liveMetricsStore } from '$lib/stores/liveMetricsStore';
 
-  const runtimes = Object.entries(baselineData)
-    .map(([id, data]) => ({ 
-      id, 
+  const BASELINE_CPU: Record<string, number> = {
+    rust: 14, go: 18, rails: 48, node: 34, python: 52, php: 55,
+  };
+  const BASELINE_DB: Record<string, number> = {
+    rust: 5, go: 8, rails: 12, node: 9, python: 10, php: 7,
+  };
+  const BASELINE_MEMORY: Record<string, number> = {
+    rust: 28, go: 32, rails: 185, node: 98, python: 88, php: 48,
+  };
+  const MAX_MEMORY = 256;
+
+  $: live = $liveMetricsStore.data;
+
+  $: runtimes = Object.entries(baselineData)
+    .map(([id, data]) => ({
+      id,
       ...data,
-      memory: Math.floor(150 + Math.random() * 250), // MB
-      cpu: Math.floor(20 + Math.random() * 60), // %
-      dbConnections: Math.floor(8 + Math.random() * 12) // out of 20
+      memory: live?.[id]?.memoryMB ?? BASELINE_MEMORY[id] ?? 64,
+      cpu: BASELINE_CPU[id] ?? 40,
+      dbConnections: BASELINE_DB[id] ?? 8,
+      memoryIsLive: live?.[id]?.memoryMB != null,
     }))
-    .sort((a, b) => (a.memory + a.cpu + a.dbConnections) - (b.memory + b.cpu + b.dbConnections));
+    .sort((a, b) => a.memory - b.memory);
 </script>
 
 <div class="space-y-8">
@@ -40,7 +55,7 @@
             <div class="h-2 bg-slate-800/50 rounded-full overflow-hidden">
               <div
                 class="h-full rounded-full transition-all"
-                style="width: {(runtime.memory / 400) * 100}%; background-color: {runtime.color};"
+                style="width: {Math.min(100, (runtime.memory / MAX_MEMORY) * 100)}%; background-color: {runtime.color};"
               />
             </div>
           </div>

@@ -37,7 +37,10 @@ function createLastRunStore() {
         const runs: Array<{ id: string; run_type: string; label: string | null; ran_at: string; results: Record<string, RuntimeRunResult> }> =
           json.runs ?? [];
 
-        const userRun = runs.find((r) => r.run_type === 'user') ?? runs[0] ?? null;
+        const userRun =
+          runs.find((r) => r.run_type === 'user' && r.label !== 'auto-snapshot') ??
+          runs[0] ??
+          null;
 
         if (!userRun) {
           set({ data: null, loading: false, error: null, ranAt: null, label: null });

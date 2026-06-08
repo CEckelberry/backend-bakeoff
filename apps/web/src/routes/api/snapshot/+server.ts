@@ -1,4 +1,4 @@
-import type { RequestHandler } from './$types';
+import type { RequestHandler } from '@sveltejs/kit';
 
 const PROMETHEUS_URL = process.env.PROMETHEUS_URL || 'http://prometheus:9090';
 const RESULTS_API_URL = process.env.RESULTS_API_URL || 'http://results-api:8080';

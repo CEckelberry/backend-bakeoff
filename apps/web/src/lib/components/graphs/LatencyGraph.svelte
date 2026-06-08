@@ -1,14 +1,23 @@
 <script lang="ts">
   import { baselineData } from '$lib/stores/dashboardStore';
   import { lastRunStore, showLastRun } from '$lib/stores/lastRunStore';
+  import { liveMetricsStore } from '$lib/stores/liveMetricsStore';
 
-  const runtimes = Object.entries(baselineData)
-    .map(([id, data]) => ({
-      id,
-      ...data,
-      p50: data.p95 * 0.6,
-      p99: data.p95 * 1.5
-    }))
+  $: live = $liveMetricsStore.data;
+
+  $: runtimes = Object.entries(baselineData)
+    .map(([id, data]) => {
+      const liveData = live?.[id];
+      const p95 = liveData?.p95 ?? data.p95;
+      return {
+        id,
+        ...data,
+        p95,
+        p50: liveData?.p50 ?? (p95 * 0.6),
+        p99: liveData?.p99 ?? (p95 * 1.5),
+        isLive: liveData?.isLive ?? false,
+      };
+    })
     .sort((a, b) => a.p95 - b.p95);
 
   $: lastRun = $lastRunStore.data;
