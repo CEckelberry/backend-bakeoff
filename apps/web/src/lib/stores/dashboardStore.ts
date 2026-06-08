@@ -31,7 +31,7 @@ export const baselineData: Record<string, { name: string; framework: string; p95
   rails:  { name: 'Rails',  framework: 'Puma',    p95: 20.12, successRate: 100.0,  color: '#EF4444' },
   node:   { name: 'Node',   framework: 'Fastify', p95: 17.16, successRate: 100.0,  color: '#AFA9EC' },
   python: { name: 'Python', framework: 'FastAPI', p95: 31.52, successRate: 99.99,  color: '#ED93B1' },
-  php:    { name: 'PHP',    framework: 'PHP 8.3', p95: 144.86, successRate: 100.0, color: '#7F77DD' },
+  php:    { name: 'PHP',    framework: 'Vanilla', p95: 144.86, successRate: 100.0, color: '#7F77DD' },
 };
 
 function createDashboardStore() {

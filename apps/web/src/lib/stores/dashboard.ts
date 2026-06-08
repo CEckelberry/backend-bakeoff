@@ -26,7 +26,7 @@ export const runtimes: Runtime[] = [
 	{ id: 'bun', name: 'Bun', framework: 'Hono', version: '1.0' },
 	{ id: 'node', name: 'Node.js', framework: 'Fastify', version: '20' },
 	{ id: 'python', name: 'Python', framework: 'FastAPI', version: '3.12' },
-	{ id: 'php', name: 'PHP', framework: 'PHP 8.3', version: '8.3' }
+	{ id: 'php', name: 'PHP', framework: 'Vanilla', version: '8.3' }
 ];
 
 export const dashboard = writable<DashboardState>({
