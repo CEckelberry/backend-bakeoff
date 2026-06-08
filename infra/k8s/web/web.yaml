@@ -50,7 +50,7 @@ metadata:
   name: web
   namespace: bakeoff
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: web
   ports:
