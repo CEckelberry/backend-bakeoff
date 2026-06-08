@@ -17,6 +17,22 @@ spec:
     spec:
       serviceAccountName: bakeoff-workload
       initContainers:
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2
+          restartPolicy: Always
+          args:
+            - "--structured-logs"
+            - "--port=5432"
+            - "exalted-kit-496514-s1:us-west1:portfolio-db"
+          securityContext:
+            runAsNonRoot: true
+          resources:
+            requests:
+              cpu: "25m"
+              memory: "32Mi"
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
         - name: wait-for-proxy
           image: busybox
           command: ['sh', '-c', 'until nc -z 127.0.0.1 5432; do sleep 1; done']
@@ -49,22 +65,7 @@ spec:
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
-        - name: cloud-sql-proxy
-          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2
-          imagePullPolicy: Always
-          args:
-            - "--structured-logs"
-            - "--port=5432"
-            - "exalted-kit-496514-s1:us-west1:portfolio-db"
-          securityContext:
-            runAsNonRoot: true
-          resources:
-            requests:
-              cpu: "25m"
-              memory: "32Mi"
-            limits:
-              cpu: "100m"
-              memory: "128Mi"
+
 ---
 apiVersion: v1
 kind: Service
