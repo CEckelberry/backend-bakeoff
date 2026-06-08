@@ -1,16 +1,21 @@
 <script lang="ts">
   import { baselineData } from '$lib/stores/dashboardStore';
+  import { lastRunStore, showLastRun } from '$lib/stores/lastRunStore';
 
   const runtimes = Object.entries(baselineData)
-    .map(([id, data]) => ({ 
-      id, 
+    .map(([id, data]) => ({
+      id,
       ...data,
       p50: data.p95 * 0.6,
       p99: data.p95 * 1.5
     }))
     .sort((a, b) => a.p95 - b.p95);
 
-  const maxLatency = Math.max(...runtimes.map(r => r.p99));
+  $: lastRun = $lastRunStore.data;
+  $: maxLatency = Math.max(
+    ...runtimes.map((r) => r.p99),
+    ...(lastRun && $showLastRun ? Object.values(lastRun).map((v) => v.p95 * 1.5) : [0])
+  );
 </script>
 
 <div class="space-y-8">
@@ -65,6 +70,14 @@
             class="absolute top-0 bottom-0 w-0.5 bg-red-500"
             style="left: {(runtime.p99 / maxLatency) * 100}%;"
           />
+          <!-- Last run P95 marker (white) -->
+          {#if $showLastRun && lastRun?.[runtime.id]}
+            <div
+              class="absolute top-0 bottom-0 w-1 rounded opacity-80 bg-white"
+              style="left: {(lastRun[runtime.id].p95 / maxLatency) * 100}%;"
+              title="Last run P95: {lastRun[runtime.id].p95.toFixed(1)}ms"
+            />
+          {/if}
         </div>
       </div>
     {/each}
