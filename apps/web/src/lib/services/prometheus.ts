@@ -206,13 +206,13 @@ export async function getRuntimeLatencyHistory(
   minutesBack: number = 5
 ): Promise<PrometheusMetric[]> {
   try {
-    // Try http_request_duration_seconds first (Go, Node, Python)
-    let query = `histogram_quantile(0.95,http_request_duration_seconds_bucket{instance=~"bo-${runtime}:.*"})`;
+    // Aggregate across all endpoint labels so we get one series per instance
+    let query = `histogram_quantile(0.95,sum by(instance,le)(rate(http_request_duration_seconds_bucket{instance=~"bo-${runtime}:.*"}[1m])))`;
     let results = await queryPrometheusRange(query, minutesBack);
 
-    // If no results, try checkout_latency_seconds (Rust, Bun, PHP)
+    // If no results, try checkout_duration_seconds (Rails)
     if (results.length === 0) {
-      query = `histogram_quantile(0.95,checkout_latency_seconds_bucket{instance=~"bo-${runtime}:.*"})`;
+      query = `histogram_quantile(0.95,sum by(instance,le)(rate(checkout_duration_seconds_bucket{instance=~"bo-${runtime}:.*"}[1m])))`;
       results = await queryPrometheusRange(query, minutesBack);
     }
 
@@ -235,13 +235,13 @@ export async function getRuntimeThroughputHistory(
   minutesBack: number = 5
 ): Promise<PrometheusMetric[]> {
   try {
-    // Try http_requests_total first (Go, Node, Python)
-    let query = `rate(http_requests_total{instance=~"bo-${runtime}:.*"}[1m])`;
+    // Sum across endpoints so we get one series per instance
+    let query = `sum by(instance)(rate(http_requests_total{instance=~"bo-${runtime}:.*"}[1m]))`;
     let results = await queryPrometheusRange(query, minutesBack);
 
-    // If no results, try checkout_requests_total (Rust, Bun, PHP)
+    // If no results, try checkout_requests_total
     if (results.length === 0) {
-      query = `rate(checkout_requests_total{instance=~"bo-${runtime}:.*"}[1m])`;
+      query = `sum by(instance)(rate(checkout_requests_total{instance=~"bo-${runtime}:.*"}[1m]))`;
       results = await queryPrometheusRange(query, minutesBack);
     }
 
