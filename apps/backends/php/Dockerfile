@@ -1,4 +1,8 @@
+FROM composer:2 AS composer
+
 FROM dunglas/frankenphp:1-php8.3-alpine AS builder
+
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
