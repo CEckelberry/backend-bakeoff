@@ -17,9 +17,6 @@ COPY . .
 RUN mkdir -p var/cache var/log && \
     composer dump-autoload --optimize --classmap-authoritative
 
-# Pre-warm the Symfony DI container so first request isn't slow
-RUN APP_ENV=prod APP_SECRET=warmup php bin/console cache:warmup --env=prod
-
 # ---- runtime ----------------------------------------------------------------
 FROM dunglas/frankenphp:1-php8.3-alpine
 
