@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"fmt"
+	"sort"
 
 	"github.com/google/uuid"
 )
@@ -58,6 +59,11 @@ func (ps *PostgresStore) InsertOrder(ctx context.Context, order Order, items []O
 	if err != nil {
 		return fmt.Errorf("insert order: %w", err)
 	}
+
+	// Sort by product ID for consistent lock ordering — prevents deadlocks under concurrency.
+	sort.Slice(items, func(i, j int) bool {
+		return items[i].ProductID.String() < items[j].ProductID.String()
+	})
 
 	// Insert order items and update stock
 	for _, item := range items {

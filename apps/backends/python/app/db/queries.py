@@ -19,6 +19,9 @@ async def insert_order(
     tax_cents: int,
     items: List[dict],
 ) -> None:
+    # Sort by product_id for consistent lock ordering — prevents deadlocks under concurrency.
+    items = sorted(items, key=lambda i: i['product_id'])
+
     async with pool.acquire(timeout=5.0) as conn:
         async with conn.transaction():
             # Insert order

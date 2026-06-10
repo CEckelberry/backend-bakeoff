@@ -39,6 +39,9 @@ class CheckoutService
     fraud_score = (subtotal / 100) + (line_items.size * 10)
     order_id    = SecureRandom.uuid
 
+    # Sort by product ID for consistent lock ordering — prevents deadlocks under concurrency.
+    line_items.sort_by! { |li| li[:product].id.to_s }
+
     ActiveRecord::Base.transaction do
       Order.create!(
         id:          order_id,

@@ -47,6 +47,9 @@ export async function insertOrder(
 ): Promise<void> {
   const client = await pool.connect();
   try {
+    // Sort by product_id for consistent lock ordering — prevents deadlocks under concurrency.
+    items = [...items].sort((a, b) => a.product_id.localeCompare(b.product_id));
+
     await client.query('BEGIN');
 
     // Insert order
