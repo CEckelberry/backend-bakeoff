@@ -39,7 +39,7 @@ spec:
           command: ['sh', '-c', 'until nc -z 127.0.0.1 5432; do sleep 1; done']
       containers:
         - name: bo-go
-          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-go:4082e07a
+          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-go:e7dd0a55
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
