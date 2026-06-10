@@ -1,8 +1,0 @@
-{
-    "name": "backend-bakeoff/php",
-    "description": "PHP backend for Backend Bake-off",
-    "type": "project",
-    "require": {
-        "php": "^8.3"
-    }
-}
