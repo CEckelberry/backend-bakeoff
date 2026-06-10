@@ -1,6 +1,26 @@
-import type { RequestHandler } from './$types';
+import type { RequestHandler } from '@sveltejs/kit';
 
 const ROUTER_URL = process.env.ROUTER_URL || 'http://router:8080';
+
+export const GET: RequestHandler = async ({ request, url }) => {
+	const runtime = request.headers.get('X-Runtime') || 'go';
+	const path = url.searchParams.get('path') || '/products';
+	try {
+		const res = await fetch(`${ROUTER_URL}${path}`, {
+			headers: { 'X-Runtime': runtime }
+		});
+		const data = await res.text();
+		return new Response(data, {
+			status: res.status,
+			headers: { 'Content-Type': 'application/json' }
+		});
+	} catch {
+		return new Response(JSON.stringify({ error: 'router unreachable' }), {
+			status: 503,
+			headers: { 'Content-Type': 'application/json' }
+		});
+	}
+};
 
 export const POST: RequestHandler = async ({ request }) => {
 	const runtime = request.headers.get('X-Runtime') || 'go';

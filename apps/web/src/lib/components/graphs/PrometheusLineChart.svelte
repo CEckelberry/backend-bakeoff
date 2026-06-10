@@ -86,8 +86,9 @@
 
   <div class="bg-slate-900/50 rounded-xl border border-slate-800 p-4 relative">
     {#if noData}
-      <div class="flex items-center justify-center h-40 text-slate-500 text-sm">
-        No data — backends may still be warming up
+      <div class="flex flex-col items-center justify-center h-40 gap-2">
+        <span class="text-slate-500 text-sm">No data in the last 60 minutes</span>
+        <span class="text-slate-600 text-xs">Run a benchmark to generate live traffic data</span>
       </div>
     {:else}
       <div class="relative">

@@ -22,7 +22,7 @@
       <div class="space-y-8">
         <div class="text-center space-y-3">
           <h2 class="text-2xl font-bold text-white">Running Benchmarks</h2>
-          <p class="text-slate-400">Testing {selectedCount} runtimes sequentially...</p>
+          <p class="text-slate-400">Testing {selectedCount} runtimes — 500 real checkout requests each</p>
         </div>
 
         <!-- Progress Overview -->
