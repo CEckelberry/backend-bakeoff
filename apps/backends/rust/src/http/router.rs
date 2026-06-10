@@ -22,20 +22,11 @@ pub fn create_router(pool: PgPool, tax_client: TaxClient, metrics: Arc<Metrics>)
         tax_client,
         metrics: metrics.clone(),
     };
-    
-    // Checkout with observability middleware (hot path)
-    let checkout_router = Router::new()
-        .route("/checkout", post(checkout::checkout))
-        .with_state(state.clone())
-        .layer(
-            ServiceBuilder::new()
-                .layer(axum::middleware::from_fn(
-                    move |req, next| observability_middleware(metrics.clone(), req, next),
-                ))
-        );
 
-    // Health and metrics without middleware (low priority endpoints)
-    let other_routes = Router::new()
+    let metrics_mw = metrics.clone();
+
+    Router::new()
+        .route("/checkout", post(checkout::checkout))
         .route("/health", get(health::health))
         .route("/metrics", get(metrics_handler))
         .route("/products", get(products::products))
@@ -44,10 +35,13 @@ pub fn create_router(pool: PgPool, tax_client: TaxClient, metrics: Arc<Metrics>)
         .route("/orders/:id", get(orders::order_by_id))
         .route("/reports/revenue", get(orders::revenue_report))
         .with_state(state)
-        .layer(DefaultBodyLimit::max(1024 * 1024));
-
-    // Merge routers
-    checkout_router.merge(other_routes)
+        .layer(DefaultBodyLimit::max(1024 * 1024))
+        .layer(
+            ServiceBuilder::new()
+                .layer(axum::middleware::from_fn(
+                    move |req, next| observability_middleware(metrics_mw.clone(), req, next),
+                ))
+        )
 }
 
 async fn metrics_handler() -> String {

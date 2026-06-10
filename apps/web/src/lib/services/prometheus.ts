@@ -228,6 +228,66 @@ export async function getRuntimeLatencyHistory(
 }
 
 /**
+ * Get P99 latency history for a runtime over time
+ */
+export async function getRuntimeP99History(
+  runtime: string,
+  minutesBack: number = 5
+): Promise<PrometheusMetric[]> {
+  try {
+    let query = `histogram_quantile(0.99,sum by(instance,le)(rate(http_request_duration_seconds_bucket{instance=~"bo-${runtime}:.*"}[1m])))`;
+    let results = await queryPrometheusRange(query, minutesBack);
+    if (results.length === 0) {
+      query = `histogram_quantile(0.99,sum by(instance,le)(rate(checkout_duration_seconds_bucket{instance=~"bo-${runtime}:.*"}[1m])))`;
+      results = await queryPrometheusRange(query, minutesBack);
+    }
+    return results.map(r => ({ ...r, value: r.value * 1000 }));
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Get memory usage (MB) history for a runtime over time
+ */
+export async function getRuntimeMemoryHistory(
+  runtime: string,
+  minutesBack: number = 5
+): Promise<PrometheusMetric[]> {
+  try {
+    const query = `process_resident_memory_bytes{instance=~"bo-${runtime}:.*"} / 1048576`;
+    return await queryPrometheusRange(query, minutesBack);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Get Apdex score history for a runtime (T=50ms: satisfied <50ms, tolerating <200ms)
+ */
+export async function getRuntimeApdexHistory(
+  runtime: string,
+  minutesBack: number = 5
+): Promise<PrometheusMetric[]> {
+  try {
+    const inst = `instance=~"bo-${runtime}:.*"`;
+    // Using le="0.05" (50ms) and le="0.2" (200ms) buckets
+    const query = `(
+      sum by(instance)(rate(http_request_duration_seconds_bucket{${inst},le="0.05"}[1m])) +
+      0.5 * (
+        sum by(instance)(rate(http_request_duration_seconds_bucket{${inst},le="0.2"}[1m])) -
+        sum by(instance)(rate(http_request_duration_seconds_bucket{${inst},le="0.05"}[1m]))
+      )
+    ) / sum by(instance)(rate(http_request_duration_seconds_count{${inst}}[1m]))`;
+    const results = await queryPrometheusRange(query, minutesBack);
+    // Clamp to [0, 1]
+    return results.map(r => ({ ...r, value: Math.min(1, Math.max(0, r.value)) }));
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Get throughput history for a runtime over time
  */
 export async function getRuntimeThroughputHistory(
