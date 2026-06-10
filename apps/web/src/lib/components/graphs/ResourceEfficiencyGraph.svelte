@@ -9,7 +9,7 @@
     rust: 5, go: 8, rails: 12, node: 9, python: 10, php: 7,
   };
   const BASELINE_MEMORY: Record<string, number> = {
-    rust: 28, go: 32, rails: 185, node: 98, python: 88, php: 48,
+    rust: 28, go: 32, rails: 185, node: 98, python: 88, php: 120,
   };
   const MAX_MEMORY = 256;
 

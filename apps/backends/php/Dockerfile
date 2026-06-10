@@ -1,16 +1,26 @@
-FROM php:8.3-cli-alpine
-
-WORKDIR /app
+FROM php:8.3-cli-alpine AS builder
 
 RUN apk add --no-cache \
     libpq \
-    postgresql-client \
     postgresql-dev \
-    build-base && \
+    build-base \
+    linux-headers \
+    autoconf \
+    openssl-dev && \
+    pecl install swoole && \
+    docker-php-ext-enable swoole && \
     docker-php-ext-install pdo_pgsql && \
-    apk del postgresql-dev build-base
+    apk del postgresql-dev build-base autoconf linux-headers openssl-dev
 
-COPY . .
+FROM php:8.3-cli-alpine
+
+RUN apk add --no-cache libpq
+
+COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
+
+WORKDIR /app
+COPY server.php .
 
 EXPOSE 8086
 
@@ -23,4 +33,4 @@ ENV DB_HOST=db \
     TAX_SERVICE_URL=http://tax-service:8080 \
     RUNTIME_NAME=php
 
-CMD ["php", "-S", "0.0.0.0:8086", "-t", "public"]
+CMD ["php", "server.php"]
