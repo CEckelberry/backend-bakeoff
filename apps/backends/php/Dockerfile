@@ -1,37 +1,42 @@
-FROM php:8.3-cli-alpine AS builder
-
-RUN apk add --no-cache \
-    libpq \
-    postgresql-dev \
-    build-base \
-    linux-headers \
-    autoconf \
-    openssl-dev \
-    brotli-dev && \
-    pecl install swoole && \
-    docker-php-ext-enable swoole && \
-    docker-php-ext-install pdo_pgsql && \
-    apk del postgresql-dev build-base autoconf linux-headers openssl-dev brotli-dev
-
-FROM php:8.3-cli-alpine
-
-RUN apk add --no-cache libpq brotli
-
-COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
-COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
+FROM dunglas/frankenphp:1-php8.3-alpine AS builder
 
 WORKDIR /app
-COPY server.php .
+
+RUN apk add --no-cache postgresql-dev build-base && \
+    install-php-extensions pdo_pgsql && \
+    apk del postgresql-dev build-base
+
+COPY composer.json ./
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+COPY . .
+RUN mkdir -p var/cache var/log && \
+    composer dump-autoload --optimize --classmap-authoritative
+
+# Pre-warm the Symfony DI container so first request isn't slow
+RUN APP_ENV=prod APP_SECRET=warmup php bin/console cache:warmup --env=prod
+
+# ---- runtime ----------------------------------------------------------------
+FROM dunglas/frankenphp:1-php8.3-alpine
+
+RUN apk add --no-cache libpq && \
+    install-php-extensions pdo_pgsql
+
+WORKDIR /app
+COPY --from=builder /app /app
+COPY Caddyfile /etc/caddy/Caddyfile
 
 EXPOSE 8086
 
-ENV DB_HOST=db \
+ENV APP_ENV=prod \
+    APP_DEBUG=0 \
+    APP_SECRET=bakeoffphpsecret \
+    DB_HOST=localhost \
     DB_PORT=5432 \
     DB_DATABASE=bakeoff \
     DB_USERNAME=postgres \
     DB_PASSWORD=password \
     DB_SCHEMA=bakeoff_php \
-    TAX_SERVICE_URL=http://tax-service:8080 \
-    RUNTIME_NAME=php
+    TAX_SERVICE_URL=http://tax-service:8080
 
-CMD ["php", "server.php"]
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]

@@ -1,0 +1,15 @@
+{
+	frankenphp {
+		worker {
+			file /app/public/index.php
+			num 4
+		}
+	}
+	admin off
+}
+
+:8086 {
+	root * /app/public
+	encode off
+	php_server
+}

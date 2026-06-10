@@ -1,0 +1,23 @@
+{
+    "name": "bakeoff/php-symfony",
+    "type": "project",
+    "require": {
+        "php": "^8.3",
+        "symfony/framework-bundle": "^7.2",
+        "symfony/runtime": "^7.2",
+        "runtime/frankenphp-symfony": "^0.2"
+    },
+    "autoload": {
+        "psr-4": { "App\\": "src/" }
+    },
+    "extra": {
+        "runtime": {
+            "class": "Runtime\\FrankenPhpSymfony\\Runtime"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    }
+}
