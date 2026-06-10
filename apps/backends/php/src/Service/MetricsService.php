@@ -17,10 +17,11 @@ class MetricsService
         $ck = "{$method}:{$endpoint}:{$status}";
         self::$counters[$ck] = (self::$counters[$ck] ?? 0) + 1;
 
-        if (!isset(self::$histograms[$endpoint])) {
-            self::$histograms[$endpoint] = ['sum' => 0.0, 'count' => 0, 'buckets' => []];
+        $hk = "{$method}:{$endpoint}";
+        if (!isset(self::$histograms[$hk])) {
+            self::$histograms[$hk] = ['sum' => 0.0, 'count' => 0, 'buckets' => []];
         }
-        $h = &self::$histograms[$endpoint];
+        $h = &self::$histograms[$hk];
         $h['sum']   += $duration;
         $h['count'] += 1;
         foreach (self::BUCKETS as $le) {
