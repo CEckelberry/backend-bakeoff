@@ -39,7 +39,7 @@ spec:
           command: ['sh', '-c', 'until nc -z 127.0.0.1 5432; do sleep 1; done']
       containers:
         - name: bo-php
-          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-php:f1523775
+          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-php:3a0a38df
           imagePullPolicy: Always
           ports:
             - containerPort: 8086
