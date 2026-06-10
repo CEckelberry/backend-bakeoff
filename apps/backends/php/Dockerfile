@@ -6,7 +6,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-RUN apk add --no-cache postgresql-dev build-base && \
+RUN apk add --no-cache libpq postgresql-dev build-base && \
     install-php-extensions pdo_pgsql && \
     apk del postgresql-dev build-base
 
