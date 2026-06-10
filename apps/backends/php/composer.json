@@ -5,6 +5,7 @@
         "php": "^8.3",
         "symfony/framework-bundle": "^7.2",
         "symfony/runtime": "^7.2",
+        "symfony/yaml": "^7.2",
         "runtime/frankenphp-symfony": "^0.2"
     },
     "autoload": {
