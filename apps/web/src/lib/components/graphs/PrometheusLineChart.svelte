@@ -43,6 +43,17 @@
     ? [0, maxV * 0.25, maxV * 0.5, maxV * 0.75, maxV].map((v) => ({ v, y: yScale(v) }))
     : [];
 
+  const X_TICK_COUNT = 5;
+  $: xTicks = (() => {
+    if (maxT === minT) return [];
+    return Array.from({ length: X_TICK_COUNT }, (_, i) => {
+      const t = minT + (i / (X_TICK_COUNT - 1)) * (maxT - minT);
+      const d = new Date(t * 1000);
+      const label = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return { t, x: xScale(t), label };
+    });
+  })();
+
   $: noData = allValues.length === 0;
 
   // Hover tooltip
@@ -110,6 +121,19 @@
               x={PAD.left - 6} y={tick.y + 4}
               font-size="11" fill="#64748b" text-anchor="end"
             >{yFormatter(tick.v)}</text>
+          {/each}
+
+          <!-- X-axis ticks + labels -->
+          {#each xTicks as tick}
+            <line
+              x1={tick.x} y1={H - PAD.bottom}
+              x2={tick.x} y2={H - PAD.bottom + 4}
+              stroke="#475569" stroke-width="1"
+            />
+            <text
+              x={tick.x} y={H - PAD.bottom + 15}
+              font-size="10" fill="#64748b" text-anchor="middle"
+            >{tick.label}</text>
           {/each}
 
           <!-- Lines per runtime -->
