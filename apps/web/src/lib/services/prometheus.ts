@@ -271,14 +271,8 @@ export async function getRuntimeApdexHistory(
 ): Promise<PrometheusMetric[]> {
   try {
     const inst = `instance=~"bo-${runtime}:.*"`;
-    // Using le="0.05" (50ms) and le="0.2" (200ms) buckets
-    const query = `(
-      sum by(instance)(rate(http_request_duration_seconds_bucket{${inst},le="0.05"}[1m])) +
-      0.5 * (
-        sum by(instance)(rate(http_request_duration_seconds_bucket{${inst},le="0.2"}[1m])) -
-        sum by(instance)(rate(http_request_duration_seconds_bucket{${inst},le="0.05"}[1m]))
-      )
-    ) / sum by(instance)(rate(http_request_duration_seconds_count{${inst}}[1m]))`;
+    // le="0.05" (50ms satisfied), le="0.25" (250ms tolerating) — standard histogram buckets
+    const query = `(sum by(instance)(rate(http_request_duration_seconds_bucket{${inst},le="0.05"}[1m])) + 0.5 * (sum by(instance)(rate(http_request_duration_seconds_bucket{${inst},le="0.25"}[1m])) - sum by(instance)(rate(http_request_duration_seconds_bucket{${inst},le="0.05"}[1m])))) / sum by(instance)(rate(http_request_duration_seconds_count{${inst}}[1m]))`;
     const results = await queryPrometheusRange(query, minutesBack);
     // Clamp to [0, 1]
     return results.map(r => ({ ...r, value: Math.min(1, Math.max(0, r.value)) }));

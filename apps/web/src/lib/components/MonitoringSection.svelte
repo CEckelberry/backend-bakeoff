@@ -1,8 +1,9 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { baselineData } from '$lib/stores/dashboardStore';
-  import { getRuntimeLatencyHistory, getRuntimeP99History, getRuntimeThroughputHistory, getRuntimeMemoryHistory, getRuntimeApdexHistory, queryPrometheusRange } from '$lib/services/prometheus';
+  import { getRuntimeLatencyHistory, getRuntimeP99History, getRuntimeThroughputHistory, getRuntimeMemoryHistory, getRuntimeApdexHistory } from '$lib/services/prometheus';
   import PrometheusLineChart from '$lib/components/graphs/PrometheusLineChart.svelte';
+  import RuntimeHealthGrid from '$lib/components/RuntimeHealthGrid.svelte';
 
   const RUNTIMES = Object.entries(baselineData).map(([id, d]) => ({
     id,
@@ -23,47 +24,20 @@
   let latencySeries: ChartSeries[] = [];
   let p99Series: ChartSeries[] = [];
   let throughputSeries: ChartSeries[] = [];
-  let errorSeries: ChartSeries[] = [];
   let memorySeries: ChartSeries[] = [];
   let apdexSeries: ChartSeries[] = [];
   let lastFetched: Date | null = null;
   let interval: ReturnType<typeof setInterval>;
   let isLoading = false;
 
-  async function getRuntimeErrorRateHistory(
-    runtime: string,
-    minutesBack: number
-  ): Promise<Array<{ timestamp: number; value: number }>> {
-    // Try http_requests_total first (Go, Node, Python)
-    let errorQ = `rate(http_requests_total{instance=~"bo-${runtime}:.*",status=~"5.."}[1m])`;
-    let totalQ = `rate(http_requests_total{instance=~"bo-${runtime}:.*"}[1m])`;
-    let errorPts = await queryPrometheusRange(errorQ, minutesBack);
-    let totalPts = await queryPrometheusRange(totalQ, minutesBack);
-
-    // Fall back to checkout metrics (Rust, PHP)
-    if (totalPts.length === 0) {
-      errorQ = `rate(checkout_requests_total{instance=~"bo-${runtime}:.*",status=~"5.."}[1m])`;
-      totalQ = `rate(checkout_requests_total{instance=~"bo-${runtime}:.*"}[1m])`;
-      errorPts = await queryPrometheusRange(errorQ, minutesBack);
-      totalPts = await queryPrometheusRange(totalQ, minutesBack);
-    }
-
-    const errorMap = new Map(errorPts.map((p) => [p.timestamp, p.value]));
-    return totalPts.map((t) => ({
-      timestamp: t.timestamp,
-      value: t.value > 0 ? ((errorMap.get(t.timestamp) ?? 0) / t.value) * 100 : 0,
-    }));
-  }
-
   async function loadAll() {
     if (isLoading) return;
     isLoading = true;
     try {
-      const [latencyResults, p99Results, throughputResults, errorResults, memoryResults, apdexResults] = await Promise.all([
+      const [latencyResults, p99Results, throughputResults, memoryResults, apdexResults] = await Promise.all([
         Promise.all(RUNTIMES.map(async (r) => ({ ...r, points: await getRuntimeLatencyHistory(r.id, WINDOW_MINUTES) }))),
         Promise.all(RUNTIMES.map(async (r) => ({ ...r, points: await getRuntimeP99History(r.id, WINDOW_MINUTES) }))),
         Promise.all(RUNTIMES.map(async (r) => ({ ...r, points: await getRuntimeThroughputHistory(r.id, WINDOW_MINUTES) }))),
-        Promise.all(RUNTIMES.map(async (r) => ({ ...r, points: await getRuntimeErrorRateHistory(r.id, WINDOW_MINUTES) }))),
         Promise.all(RUNTIMES.map(async (r) => ({ ...r, points: await getRuntimeMemoryHistory(r.id, WINDOW_MINUTES) }))),
         Promise.all(RUNTIMES.map(async (r) => ({ ...r, points: await getRuntimeApdexHistory(r.id, WINDOW_MINUTES) }))),
       ]);
@@ -71,7 +45,6 @@
       latencySeries = latencyResults;
       p99Series = p99Results;
       throughputSeries = throughputResults;
-      errorSeries = errorResults;
       memorySeries = memoryResults;
       apdexSeries = apdexResults;
       lastFetched = new Date();
@@ -129,12 +102,7 @@
       yFormatter={(v) => `${fmt(v)} rps`}
     />
 
-    <PrometheusLineChart
-      title="Error Rate"
-      subtitle="5xx responses as % of total requests — lower is better"
-      series={errorSeries}
-      yFormatter={(v) => `${v.toFixed(2)}%`}
-    />
+    <RuntimeHealthGrid />
 
     <PrometheusLineChart
       title="Memory Usage"
@@ -145,7 +113,7 @@
 
     <PrometheusLineChart
       title="Apdex Score"
-      subtitle="User satisfaction index (0–1) · satisfied <50ms · tolerating <200ms · higher is better"
+      subtitle="User satisfaction index (0–1) · satisfied <50ms · tolerating <250ms · higher is better"
       series={apdexSeries}
       yFormatter={(v) => v.toFixed(3)}
     />
