@@ -6,15 +6,16 @@ RUN apk add --no-cache \
     build-base \
     linux-headers \
     autoconf \
-    openssl-dev && \
+    openssl-dev \
+    brotli-dev && \
     pecl install swoole && \
     docker-php-ext-enable swoole && \
     docker-php-ext-install pdo_pgsql && \
-    apk del postgresql-dev build-base autoconf linux-headers openssl-dev
+    apk del postgresql-dev build-base autoconf linux-headers openssl-dev brotli-dev
 
 FROM php:8.3-cli-alpine
 
-RUN apk add --no-cache libpq
+RUN apk add --no-cache libpq brotli
 
 COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
 COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
