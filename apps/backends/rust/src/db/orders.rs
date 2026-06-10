@@ -33,8 +33,12 @@ pub async fn get_product(pool: &PgPool, id: Uuid) -> Result<Product, sqlx::Error
 pub async fn insert_order(
     pool: &PgPool,
     order: Order,
-    items: Vec<OrderItem>,
+    mut items: Vec<OrderItem>,
 ) -> Result<(), Box<dyn std::error::Error>> {
+    // Sort by product_id so concurrent transactions always acquire row locks in the
+    // same order, preventing deadlocks when checkout_max requests overlap.
+    items.sort_by_key(|i| i.product_id);
+
     let mut tx = pool.begin().await?;
     
     sqlx::query(
