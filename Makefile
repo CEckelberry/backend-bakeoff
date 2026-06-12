@@ -1,4 +1,7 @@
-.PHONY: dev clean-dev build test bench contract install setup
+BAKEOFF_NS  := bakeoff
+BAKEOFF_ALL := bo-go bo-rust bo-node bo-python bo-php bo-rails tax-service results-api router web prometheus
+
+.PHONY: dev clean-dev build test bench contract install setup sleep wake
 
 # Local development: bring up docker-compose
 dev:
@@ -51,3 +54,13 @@ setup:
 	pnpm install
 	git init
 	git checkout -b phase-0-foundation || git switch phase-0-foundation
+
+# Scale all workloads to 0 — cluster autoscaler will drain nodes to 0 (~5 min)
+sleep:
+	kubectl scale deployment $(BAKEOFF_ALL) --replicas=0 -n $(BAKEOFF_NS)
+	@echo "✅ All workloads at 0 — nodes will drain to 0 in ~5 min"
+
+# Restore all workloads to 1 replica — allow ~2 min for node provisioning
+wake:
+	kubectl scale deployment $(BAKEOFF_ALL) --replicas=1 -n $(BAKEOFF_NS)
+	@echo "✅ Scaling up — allow ~2 min for spot node provisioning before running bench"

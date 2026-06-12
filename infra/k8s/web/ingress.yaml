@@ -1,25 +1,36 @@
-apiVersion: networking.gke.io/v1
-kind: ManagedCertificate
-metadata:
-  name: bakeoff-web-cert
-  namespace: bakeoff
-spec:
-  domains:
-    - backend-bakeoff.com
-    - www.backend-bakeoff.com
----
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: bakeoff-web
   namespace: bakeoff
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: bakeoff-web-ip
-    networking.gke.io/managed-certificates: bakeoff-web-cert
-    kubernetes.io/ingress.allow-http: "false"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
-  defaultBackend:
-    service:
-      name: web
-      port:
-        number: 80
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - backend-bakeoff.com
+        - www.backend-bakeoff.com
+      secretName: bakeoff-web-tls
+  rules:
+    - host: backend-bakeoff.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 80
+    - host: www.backend-bakeoff.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 80
