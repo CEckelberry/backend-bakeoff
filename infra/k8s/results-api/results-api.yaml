@@ -38,7 +38,7 @@ spec:
           command: ['sh', '-c', 'until nc -z 127.0.0.1 5432; do sleep 1; done']
       containers:
         - name: results-api
-          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-results-api:34f4686f
+          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-results-api:4298ac22
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
