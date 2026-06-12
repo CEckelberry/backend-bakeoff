@@ -6,6 +6,7 @@ import uuid as uuid_module
 import structlog
 from app.config import load_config, Config
 from app.db.pool import init_pool, get_pool
+from app.clients.tax import init_client, close_client
 from app.handlers import health, checkout, metrics, products, orders
 from app.utils.logging import setup_logging
 from app.models.types import CheckoutRequest
@@ -32,7 +33,12 @@ http_request_duration_seconds = Histogram(
 @app.on_event('startup')
 async def startup():
     await init_pool(config)
+    await init_client()
     logger.msg('Python backend startup', runtime='python')
+
+@app.on_event('shutdown')
+async def shutdown():
+    await close_client()
 
 @app.get('/health')
 async def health_endpoint(pool: asyncpg.Pool = Depends(get_pool)):

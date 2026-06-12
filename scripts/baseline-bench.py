@@ -8,6 +8,7 @@ import os
 import random
 import subprocess
 import sys
+import threading
 import time
 import uuid
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -50,6 +51,14 @@ HIGH_STOCK_PRODUCT_IDS = [
 ]
 
 SHIPPING = {"country": "US", "postal_code": "90210"}
+
+_thread_local = threading.local()
+
+
+def _session() -> "requests.Session":
+    if not hasattr(_thread_local, "session"):
+        _thread_local.session = requests.Session()
+    return _thread_local.session
 
 SCHEMA_NAMES = {
     "go":     "bakeoff_go",
@@ -308,8 +317,7 @@ def make_worker(method: str, resolved_path: str, base_url: str, payload_type: st
 
     if method == "GET":
         def worker(_: int) -> tuple[float, int]:
-            with requests.Session() as s:
-                return do_get(s, url)
+            return do_get(_session(), url)
         return worker
 
     if payload_type == "checkout_1":
@@ -320,8 +328,7 @@ def make_worker(method: str, resolved_path: str, base_url: str, payload_type: st
         cart_size = 1
 
     def worker(_: int) -> tuple[float, int]:
-        with requests.Session() as s:
-            return do_post(s, url, build_checkout_payload(cart_size))
+        return do_post(_session(), url, build_checkout_payload(cart_size))
     return worker
 
 
