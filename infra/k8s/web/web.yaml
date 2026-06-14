@@ -15,6 +15,13 @@ spec:
       labels:
         app: web
     spec:
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
+      tolerations:
+        - effect: NoSchedule
+          key: cloud.google.com/gke-spot
+          operator: Equal
+          value: "true"
       containers:
         - name: web
           image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-web:4298ac22

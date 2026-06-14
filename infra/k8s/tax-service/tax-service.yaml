@@ -15,6 +15,13 @@ spec:
       labels:
         app: tax-service
     spec:
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
+      tolerations:
+        - effect: NoSchedule
+          key: cloud.google.com/gke-spot
+          operator: Equal
+          value: "true"
       containers:
         - name: tax-service
           image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-tax-service:4298ac22

@@ -46,6 +46,13 @@ spec:
       labels:
         app: prometheus
     spec:
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
+      tolerations:
+        - effect: NoSchedule
+          key: cloud.google.com/gke-spot
+          operator: Equal
+          value: "true"
       containers:
         - name: prometheus
           image: prom/prometheus:latest

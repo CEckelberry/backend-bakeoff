@@ -16,6 +16,13 @@ spec:
         app: bo-python
         runtime: python
     spec:
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
+      tolerations:
+        - effect: NoSchedule
+          key: cloud.google.com/gke-spot
+          operator: Equal
+          value: "true"
       serviceAccountName: bakeoff-workload
       initContainers:
         - name: cloud-sql-proxy
