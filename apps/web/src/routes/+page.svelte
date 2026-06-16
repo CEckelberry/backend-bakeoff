@@ -100,7 +100,7 @@
   <!-- Footer -->
   <footer class="bg-slate-950 border-t border-slate-800 py-8 px-6">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <p class="text-sm text-slate-500">Backend Bake-off Dashboard · Compare Go, Rust, Bun, Node, Python, and PHP</p>
+      <p class="text-sm text-slate-500">Backend Bake-off Dashboard · Compare Go, Rust, Rails, Node, Python, and PHP</p>
       <a 
         href="https://github.com/CEckelberry/backend-bakeoff" 
         class="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors" 

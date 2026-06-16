@@ -18,7 +18,7 @@
     </h1>
 
     <p class="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
-      See how Go, Rust, Bun, Node, Python, and PHP handle real-world checkout transactions under load.
+      See how Go, Rust, Rails, Node, Python, and PHP handle real-world checkout transactions under load.
     </p>
 
     <p class="text-sm md:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">

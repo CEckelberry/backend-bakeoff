@@ -14,13 +14,14 @@ export interface RuntimeSnapshot {
   isLive: boolean;
 }
 
+// v3 baseline (2026-06-15, 500-iter, php-fpm+nginx, Symfony 8.0)
 const BASELINE: Record<string, RuntimeSnapshot> = {
-  rust:   { p95: 16.01,  p50: 9.61,  p99: 24.02,  throughput: 1480, successRate: 100.0,  memoryMB: null, isLive: false },
-  go:     { p95: 12.45,  p50: 7.47,  p99: 18.68,  throughput: 1210, successRate: 99.99,  memoryMB: null, isLive: false },
-  rails:  { p95: 20.12,  p50: 12.07, p99: 30.18,  throughput:  820, successRate: 100.0,  memoryMB: null, isLive: false },
-  node:   { p95: 17.16,  p50: 10.30, p99: 25.74,  throughput: 1090, successRate: 100.0,  memoryMB: null, isLive: false },
-  python: { p95: 31.52,  p50: 18.91, p99: 47.28,  throughput:  690, successRate: 99.99,  memoryMB: null, isLive: false },
-  php:    { p95: 144.86, p50: 86.92, p99: 217.29, throughput:  340, successRate: 100.0,  memoryMB: null, isLive: false },
+  rust:   { p95: 14.54,  p50: 6.83,  p99: 21.08,  throughput: 1723, successRate: 100.0,  memoryMB: null, isLive: false },
+  go:     { p95: 15.27,  p50: 6.95,  p99: 22.31,  throughput: 1731, successRate: 99.99,  memoryMB: null, isLive: false },
+  rails:  { p95: 20.90,  p50: 16.14, p99: 28.22,  throughput: 1177, successRate: 100.0,  memoryMB: null, isLive: false },
+  node:   { p95: 17.94,  p50: 10.21, p99: 23.30,  throughput: 1682, successRate: 100.0,  memoryMB: null, isLive: false },
+  python: { p95: 16.00,  p50: 10.34, p99: 22.57,  throughput: 1843, successRate: 99.99,  memoryMB: null, isLive: false },
+  php:    { p95: 19.65,  p50: 14.16, p99: 24.26,  throughput: 1346, successRate: 100.0,  memoryMB: null, isLive: false },
 };
 
 async function promQuery(query: string): Promise<number | null> {

@@ -13,7 +13,7 @@
     error?: string;
   }
 
-  const runtimes = ['rust', 'go', 'bun', 'node', 'python', 'php'];
+  const runtimes = ['rust', 'go', 'rails', 'node', 'python', 'php'];
   let metrics: Record<string, LiveMetrics> = {};
   let isRefreshing = false;
   let lastUpdate = new Date().toLocaleTimeString();
