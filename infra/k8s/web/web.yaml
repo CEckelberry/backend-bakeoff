@@ -24,7 +24,7 @@ spec:
           value: "true"
       containers:
         - name: web
-          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-web:93250a64
+          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-web:4678ac63
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
