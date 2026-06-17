@@ -22,7 +22,7 @@
     </p>
 
     <p class="text-sm md:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
-      Forget synthetic micro-benchmarks and hello-world scripts. This is a <strong>production-grade stress test</strong> measuring throughput, latency, and resource efficiency across actual e-commerce workflows.
+      Forget synthetic micro-benchmarks and hello-world scripts. The <strong>baseline numbers</strong> below come from a 500-iteration isolated load test (10k requests, 20 concurrent threads per backend). The <em>Run Test</em> tab lets you fire a live demo run from your browser — results will differ since requests route through the web server.
     </p>
 
 

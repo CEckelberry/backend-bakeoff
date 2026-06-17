@@ -51,7 +51,7 @@
 
             <div class="flex items-end justify-between">
               <div>
-                <p class="text-slate-500 text-[10px] uppercase tracking-widest font-medium">P95 Latency</p>
+                <p class="text-slate-500 text-[10px] uppercase tracking-widest font-medium">P95 Baseline</p>
                 <p class="text-white text-lg font-bold leading-tight">{runtime.p95}<span class="text-sm font-normal text-slate-400 ml-0.5">ms</span></p>
               </div>
               <div class="text-right">

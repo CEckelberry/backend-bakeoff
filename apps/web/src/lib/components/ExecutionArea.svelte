@@ -22,7 +22,7 @@
       <div class="space-y-8">
         <div class="text-center space-y-3">
           <h2 class="text-2xl font-bold text-white">Running Benchmarks</h2>
-          <p class="text-slate-400">Testing {selectedCount} runtimes — 500 real checkout requests each</p>
+          <p class="text-slate-400">Testing {selectedCount} runtimes — 500 real checkout requests each, routed through the web server</p>
         </div>
 
         <!-- Progress Overview -->
@@ -186,6 +186,11 @@
             Run Benchmark Now
           </button>
         </div>
+
+        <p class="text-center text-xs text-slate-500 max-w-lg mx-auto">
+          Demo run: 500 requests at 25 concurrency, routed from your browser through this web server to each backend.
+          Latency will reflect your network + the proxy hop — not the same conditions as the isolated baseline above.
+        </p>
       </div>
     {/if}
   </div>

@@ -65,8 +65,12 @@
     <div class="max-w-6xl mx-auto space-y-12">
       <!-- Results Header -->
       <div class="space-y-2">
-        <h2 class="text-3xl font-bold text-white">✓ Benchmark Complete</h2>
+        <h2 class="text-3xl font-bold text-white">✓ Demo Run Complete</h2>
         <p class="text-slate-400">All {results.length} runtime{results.length === 1 ? '' : 's'} tested</p>
+        <p class="text-xs text-slate-500">
+          These numbers reflect browser → web server → backend latency under light load.
+          See the Overview tab for the authoritative isolated baseline (10k requests, 20 threads, direct backend).
+        </p>
       </div>
 
       <!-- Benchmark Again Button -->
