@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio
+      GKE_CLUSTER: bakeoff
+      GKE_ZONE: us-west1-a
+      GKE_PROJECT: exalted-kit-496514-s1
 
     steps:
       - uses: actions/checkout@v4.2.2
@@ -84,3 +87,13 @@ jobs:
           git diff --cached --quiet && echo "No manifest changes" && exit 0
           git commit -m "ci: update image tags to ${SHORT_SHA} [skip ci]"
           git push
+
+      - name: Get GKE credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+          project_id: ${{ env.GKE_PROJECT }}
+
+      - name: Deploy to GKE
+        run: kubectl apply -f infra/k8s/ --recursive

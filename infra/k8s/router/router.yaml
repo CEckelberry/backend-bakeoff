@@ -101,9 +101,9 @@ metadata:
   name: router
   namespace: bakeoff
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: router
   ports:
-    - port: 80
+    - port: 8080
       targetPort: 8080
