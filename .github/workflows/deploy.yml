@@ -96,4 +96,6 @@ jobs:
           project_id: ${{ env.GKE_PROJECT }}
 
       - name: Deploy to GKE
-        run: kubectl apply -f infra/k8s/ --recursive
+        run: |
+          kubectl apply -f infra/k8s/namespace.yaml
+          kubectl apply -f infra/k8s/ --recursive
