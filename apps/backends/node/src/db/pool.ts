@@ -6,8 +6,8 @@ let pool: Pool;
 export async function initPool(config: Config): Promise<Pool> {
   pool = new Pool({
     connectionString: config.databaseUrl,
-    max: 50,
-    min: 5,
+    max: 5,
+    min: 1,
     idleTimeoutMillis: 600000,
     connectionTimeoutMillis: 5000,
   });

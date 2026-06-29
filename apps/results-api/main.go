@@ -243,8 +243,16 @@ func main() {
 	dbURL := envOr("DATABASE_URL", "postgresql://postgres:password@db:5432/bakeoff")
 	port := envOr("PORT", "8080")
 
+	poolCfg, err := pgxpool.ParseConfig(dbURL)
+	if err != nil {
+		slog.Error("db config parse failed", "err", err)
+		os.Exit(1)
+	}
+	poolCfg.MaxConns = 3
+	poolCfg.MinConns = 1
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	pool, err := pgxpool.New(ctx, dbURL)
+	pool, err := pgxpool.NewWithConfig(ctx, poolCfg)
 	cancel()
 	if err != nil {
 		slog.Error("db connect failed", "err", err)

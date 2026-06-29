@@ -18,8 +18,8 @@ func NewPostgresStore(ctx context.Context, dbURL string) (*PostgresStore, error)
 		return nil, fmt.Errorf("parse config: %w", err)
 	}
 
-	config.MaxConns = 20
-	config.MinConns = 5
+	config.MaxConns = 5
+	config.MinConns = 1
 	config.ConnConfig.ConnectTimeout = 5 * time.Second
 
 	pool, err := pgxpool.NewWithConfig(ctx, config)
