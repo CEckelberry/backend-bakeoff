@@ -10,10 +10,8 @@ import (
 	"syscall"
 	"time"
 
-	"net/http"
-	"net/http/httptest"
-
 	"github.com/gofiber/fiber/v2"
+	"github.com/valyala/fasthttp/fasthttpadaptor"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -71,9 +69,11 @@ func main() {
 		path := c.Path()
 		status := c.Response().StatusCode()
 
-		// Record metrics
-		observability.HTTPRequestsTotal.WithLabelValues(method, path, strconv.Itoa(status)).Inc()
-		observability.HTTPRequestDurationSeconds.WithLabelValues(method, path).Observe(duration.Seconds())
+		// Skip /metrics itself to avoid observe-during-gather conflicts
+		if path != "/metrics" {
+			observability.HTTPRequestsTotal.WithLabelValues(method, path, strconv.Itoa(status)).Inc()
+			observability.HTTPRequestDurationSeconds.WithLabelValues(method, path).Observe(duration.Seconds())
+		}
 
 		// Log
 		slog.Info("request processed",
@@ -181,14 +181,11 @@ func main() {
 		})
 	})
 
-	// Prometheus metrics endpoint
+	// Prometheus metrics endpoint — fasthttpadaptor properly bridges net/http → fasthttp
+	metricsHandler := fasthttpadaptor.NewFastHTTPHandler(promhttp.Handler())
 	app.Get("/metrics", func(c *fiber.Ctx) error {
-		w := httptest.NewRecorder()
-		r, _ := http.NewRequest("GET", "/metrics", nil)
-		promhttp.Handler().ServeHTTP(w, r)
-		result := w.Result()
-		c.Set("Content-Type", result.Header.Get("Content-Type"))
-		return c.Status(result.StatusCode).Send(w.Body.Bytes())
+		metricsHandler(c.Context())
+		return nil
 	})
 
 	app.Get("/products", func(c *fiber.Ctx) error {
