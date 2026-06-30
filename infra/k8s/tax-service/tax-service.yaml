@@ -24,7 +24,7 @@ spec:
           value: "true"
       containers:
         - name: tax-service
-          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-tax-service:d5180a2f
+          image: us-west1-docker.pkg.dev/exalted-kit-496514-s1/portfolio/bakeoff-tax-service:51e65857
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
