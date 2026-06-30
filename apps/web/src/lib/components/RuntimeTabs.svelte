@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { dashboard } from '$lib/stores/dashboard';
 	import { getRuntimeColor } from '$lib/utils/colors';
+	import { track } from '$lib/utils/analytics';
 	import type { Runtime } from '$lib/config';
-	
+
 	$: selected = $dashboard.selectedRuntime;
-	
+
 	const selectRuntime = (runtime: Runtime) => {
 		$dashboard.selectedRuntime = runtime.id;
+		track('runtime_tab_switched', { to_runtime: runtime.id });
 	};
 </script>
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { dashboard } from '$lib/stores/dashboard';
 	import { getRuntimeColor } from '$lib/utils/colors';
+	import { track } from '$lib/utils/analytics';
 	
 	let rps = 50;
 	let duration = 15;
@@ -10,6 +11,7 @@
 	const runStressTest = async () => {
 		isRunning = true;
 		results = null;
+		track('stress_mode_run', { concurrency: rps, duration_seconds: duration });
 		
 		// Simulate stress test
 		await new Promise(resolve => setTimeout(resolve, duration * 1000));

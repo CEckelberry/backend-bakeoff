@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { dashboard } from '$lib/stores/dashboard';
 	import { getRuntimeColor } from '$lib/utils/colors';
+	import { track } from '$lib/utils/analytics';
 	
 	let quantity = 1;
 	let isProcessing = false;
@@ -20,7 +21,9 @@
 			time: Math.floor(Math.random() * 50) + 10,
 			status: 'success'
 		};
-		
+
+		track('order_placed', { runtime: selected, quantity });
+
 		isProcessing = false;
 	};
 </script>

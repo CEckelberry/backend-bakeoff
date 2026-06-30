@@ -1,5 +1,6 @@
 <script lang="ts">
   import { activeGraph } from '$lib/stores/dashboardStore';
+  import { track } from '$lib/utils/analytics';
 
   interface GraphOption {
     id: 'throughput' | 'latency' | 'resources' | 'reliability';
@@ -41,7 +42,7 @@
   <div class="flex flex-wrap gap-2">
     {#each graphs as graph}
       <button
-        on:click={() => activeGraph.set(graph.id)}
+        on:click={() => { activeGraph.set(graph.id); track('graph_tab_switched', { to_graph: graph.id }); }}
         class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 whitespace-nowrap"
         class:bg-emerald-500={$activeGraph === graph.id}
         class:text-white={$activeGraph === graph.id}
