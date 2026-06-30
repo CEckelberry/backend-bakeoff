@@ -40,9 +40,11 @@ jobs:
           build_push() {
             local name=$1
             local context=$2
+            shift 2
             docker build \
               -t "${REGISTRY}/${name}:${SHORT_SHA}" \
               -t "${REGISTRY}/${name}:latest" \
+              "$@" \
               "${context}"
             docker push "${REGISTRY}/${name}:${SHORT_SHA}"
             docker push "${REGISTRY}/${name}:latest"
@@ -56,7 +58,8 @@ jobs:
           build_push bakeoff-php         apps/backends/php
           build_push bakeoff-tax-service apps/tax-service
           build_push bakeoff-results-api apps/results-api
-          build_push bakeoff-web         apps/web
+          build_push bakeoff-web         apps/web \
+            --build-arg PUBLIC_AMPLITUDE_API_KEY=${{ secrets.AMPLITUDE_API_KEY }}
 
       - name: Update image tags in manifests
         run: |

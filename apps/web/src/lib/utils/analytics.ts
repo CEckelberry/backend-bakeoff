@@ -1,5 +1,5 @@
 import { init, track as amplitudeTrack } from '@amplitude/analytics-browser';
-import { PUBLIC_AMPLITUDE_API_KEY } from '$env/dynamic/public';
+import { PUBLIC_AMPLITUDE_API_KEY } from '$env/static/public';
 
 let initialized = false;
 

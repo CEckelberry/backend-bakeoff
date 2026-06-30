@@ -3,6 +3,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+ARG PUBLIC_AMPLITUDE_API_KEY
+ENV PUBLIC_AMPLITUDE_API_KEY=$PUBLIC_AMPLITUDE_API_KEY
 RUN npm run build
 
 FROM node:20-alpine

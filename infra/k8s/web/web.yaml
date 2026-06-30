@@ -37,8 +37,6 @@ spec:
               value: "http://results-api:8080"
             - name: ROUTER_URL
               value: "http://router:8080"
-            - name: PUBLIC_AMPLITUDE_API_KEY
-              value: "2a0ce2df9e512e2f9c3c1158d010334d"
           resources:
             requests:
               cpu: "50m"
