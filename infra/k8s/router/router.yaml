@@ -8,14 +8,16 @@ data:
     events { worker_connections 1024; }
 
     http {
+      resolver 34.118.224.10 valid=10s;
+
       map $http_x_runtime $backend {
-        "go"     "bo-go:8080";
-        "rust"   "bo-rust:8080";
-        "rails"  "bo-rails:8080";
-        "node"   "bo-node:8080";
-        "python" "bo-python:8080";
-        "php"    "bo-php:8086";
-        default  "bo-go:8080";
+        "go"     "bo-go.bakeoff.svc.cluster.local:8080";
+        "rust"   "bo-rust.bakeoff.svc.cluster.local:8080";
+        "rails"  "bo-rails.bakeoff.svc.cluster.local:8080";
+        "node"   "bo-node.bakeoff.svc.cluster.local:8080";
+        "python" "bo-python.bakeoff.svc.cluster.local:8080";
+        "php"    "bo-php.bakeoff.svc.cluster.local:8086";
+        default  "bo-go.bakeoff.svc.cluster.local:8080";
       }
 
       server {
