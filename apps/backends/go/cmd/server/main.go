@@ -181,8 +181,10 @@ func main() {
 		})
 	})
 
-	// Prometheus metrics endpoint — fasthttpadaptor properly bridges net/http → fasthttp
-	metricsHandler := fasthttpadaptor.NewFastHTTPHandler(promhttp.Handler())
+	// Serve metrics from our dedicated registry (not prometheus.DefaultGatherer)
+	metricsHandler := fasthttpadaptor.NewFastHTTPHandler(
+		promhttp.HandlerFor(observability.Registry, promhttp.HandlerOpts{}),
+	)
 	app.Get("/metrics", func(c *fiber.Ctx) error {
 		metricsHandler(c.Context())
 		return nil
